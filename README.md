@@ -9,6 +9,7 @@ After cloning this project, install all node dependencies
 ```
 npm install -d
 ```
+Also create a MySQL database named 'doggoworld' with a single table named 'test' with (id:INT, name:varchar).
 
 
 
