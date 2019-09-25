@@ -2,24 +2,47 @@
 <html>
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="/js/addsample.js"></script>
+        <script src="js/addsample.js"></script>
+        <script src = "js/profile.js"></script>
+        
+        
         <!--Own css-->
         <link href="/css/style.css" type="text/css" rel="stylesheet"/>
     </head>
     <body>
         <div>
-            <h1>Sample page</h1>
+            <h1>Profile page</h1>
+            <!--10% for now until correct format of jpeg inserted-->
+            <img src="corgi.jpg" alt="corgi" width = "10%" height = "10%">
         </div>
+       
         <div>
-                <textarea rows="2" cols="30" id="text">new text</textarea>;
-            <br>
-            <button id="btn">Add text</button>>
-            <br>
-            <h3>Messages:</h3>
-            <ul id="textlist">
+            <form action="successForm.html" method="POST">
+                First name:<br>
+                
+                <input rows = "1" id = "firstname"  value = "getFirst()" disabled  ="true"></input>
+                <input type="submit" value="Change" onclick="edit()"><br>
+            </form>
+            <form>
+                Last name:<br>
+                <textarea rows = "1" id = "lastname" disabled = "true">Boy</textarea>
+                
+                <input type="submit" value="Change"><br>
+            </form>
+            <form>
+                Bio:<br>
+                <textarea rows = "5" disabled = "true" id = "bio">About me...</textarea>
+                
+                <input type="submit" value="Change"><br>
 
-            </ul>
+            </form>
+            <form>
+                Area ZipCode:<br>
+                <textarea rows = "1" disabled = "true" id = "zipcode">95111</textarea>
+                
+                <input type="submit" value="Change" onclick="edit()"><br>
+
+            </form>
         </div>
     </body>
-    
 </html>

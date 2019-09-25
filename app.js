@@ -3,6 +3,7 @@ const app = express();
 //const dateTime = require("simple-datetime-formater");
 const bodyParser = require("body-parser");
 const sampleRouter = require("./route/sampleUpdateRoute")
+const path = require("path");
 
 //require the http module
 const http = require("http").Server(app);
@@ -23,11 +24,20 @@ const dbHandler = require('./src/databaseHandler');
 app.get('/data',(req, res)=> dbHandler.query(req,res));
 
 //set the express.static middleware
-app.use(express.static(__dirname + "/public"));
+app.get('/', (req, res) =>{
+
+    res.sendFile(path.join(__dirname,'/public/index.html'));
+});
+
+//profile
+app.get('/profile', (req, res) =>{
+
+    res.sendFile(path.join(__dirname,'/public/profile.html'));
+});
+
 
 //integrating socketio
 socket = io(http);
-
 
 // start listening on port
 app.listen(port, () => console.log(`DoggoWorld listening on port ${port}`)); //http listen?
