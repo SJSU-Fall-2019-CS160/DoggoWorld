@@ -3,8 +3,8 @@ const mysql = require('mysql');
 const pool = mysql.createPool({
     connectionLimit: 100,
     host: 'localhost',
-    user: 'nodeuser',
-    password: 'nodetest',   // configure to old mysql_native_password
+    user: 'root',
+    password: 'password',   // configure to old mysql_native_password
     database: 'doggoworld',
     debug: false
 });
