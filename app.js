@@ -37,7 +37,7 @@ socket.on("connection", (socket)=>{
     
     socket.on("chat message", function(msg) {
         console.log("message: " + msg);
-        socket.broadcast.emit("recieved",{message: msg})
+        socket.broadcast.emit("received",{message: msg})
         dbHandler.addMessage(msg, "Anonymous");
     });
 });
