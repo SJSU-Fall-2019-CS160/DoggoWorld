@@ -22,7 +22,7 @@ app.use("/sample", sampleRouter);
 //database handling
 const dbHandler = require('./src/databaseHandler');
 app.get('/data',(req, res)=> dbHandler.query(req,res));
-
+app.use(express.static(__dirname + "/public"));
 //set the express.static middleware
 app.get('/', (req, res) =>{
 
@@ -30,10 +30,17 @@ app.get('/', (req, res) =>{
 });
 
 //profile
-app.get('/profile', (req, res) =>{
+// app.get('/profile', (req, res) =>{
 
-    res.sendFile(path.join(__dirname,'/public/profile.html'));
-});
+//     res.sendFile(path.join(__dirname,'/public/profile.html'));
+// });
+
+app.get('/data/:id',(req, res) => {
+    // :id -> req.params.id
+    if (req.params.id === "1") {
+        res.send("PROFILE STUFF TO AUTO LOAD");
+    }
+})
 
 
 //integrating socketio

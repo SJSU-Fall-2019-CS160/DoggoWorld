@@ -10,7 +10,7 @@ const pool = mysql.createPool({
 });
 
 function handle_database(req, res) {
-
+/*
     pool.query("SELECT * FROM test", (err, rows, fields) =>{// (id, name)
         if (err) {
             res.json({'code' : 100, 'status' : "Error connecting to Database"});
@@ -25,6 +25,26 @@ function handle_database(req, res) {
             }
         res.send(str);
     });
+*/
+    pool.query("Select name from test where id = 1",(err,names,fields) => {
+        if (err) {
+            res.json({'code' : 100, 'status' : "Error connecting to Database"});
+            return;
+        }
+        console.log("database accessed");
+        let str ="";
+        for ( ele of names) {
+            str += "<tr>";
+            str += `<td>${ele.name}</td><td></td>`;
+            str += "</tr>";
+        }
+    res.send(str);
+    });
+
 }
 
-module.exports = {pool: pool, query : handle_database};
+function getProfile(id) {
+    // return json
+}
+
+module.exports = {pool: pool, query : handle_database, getProfile: getProfile};
