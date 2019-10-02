@@ -9,6 +9,14 @@
     <body>
         <div>
             <h1>Profile page</h1>
+            <img id="profilepic" src="#" alt="corgi" width = "10%" height = "10%">
+
+        </div>
+        <div>
+            <form id="uploadform" enctype="multipart/form-data" method="post" action="/profile/user/profilepic" >
+                <input id="uploadimg" type="file" name="pic" accept="image/*">
+            </form>
+            <button type="button" id="submitbtn">Submit</button>
         </div>
         <div id="data">
 
