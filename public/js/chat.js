@@ -9,7 +9,7 @@ let socket = io.connect(`http://${window.location.hostname}:80`);
         let span = document.createElement("span");
         messages.appendChild(li).append($("#message").val());
         messages.appendChild(span).append("by " + "Me");
-
+        scrollDownChat();
         $("#message").val("");
         return true;
     });
@@ -20,6 +20,7 @@ let socket = io.connect(`http://${window.location.hostname}:80`);
         let messages = document.getElementById("messages");
         messages.appendChild(li).append(data.message);
         messages.appendChild(span).append("by " + "Anonymous");
+        scrollDownChat();
         console.log("recieve new message!");
       });
 })();
@@ -39,7 +40,12 @@ let socket = io.connect(`http://${window.location.hostname}:80`);
             .append("by " + data.name);
         });
       }).then(() => {
-        let chatbox = document.getElementById("main_chat_show");
-        chatbox.scrollTop = chatbox.scrollHeight;
+        scrollDownChat();
       });
   })();
+
+// Scroll to bottom of chat
+function scrollDownChat(){
+  let chatbox = document.getElementById("main_chat_show");
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
