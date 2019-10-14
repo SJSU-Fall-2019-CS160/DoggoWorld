@@ -37,7 +37,7 @@ let socket = io.connect(`http://${window.location.hostname}:80`);
           messages.appendChild(li).append(data.message);
           messages
             .appendChild(span)
-            .append("by " + data.name);
+            .append("by " + data.user_id + 'at' + new Date(data.created_at) );
         });
       }).then(() => {
         scrollDownChat();

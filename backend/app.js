@@ -9,7 +9,12 @@ const http = require("http").Server(app);
 // require the socket.io module
 const io = require("socket.io");
 const socket = io(http);
-const port = 3000;
+
+/-development data-/
+const port = 5000;
+const testUserID = 1; // modify with login cookie data when ready
+const testChatID = 1;
+/----/
 
 //bodyparser middleware
 app.use(bodyParser.json());
@@ -22,7 +27,7 @@ const dbHandler = require('./src/databaseHandler');
 app.get('/data',(req, res)=> dbHandler.query(req,res));
 
 //fetch all chat messages
-app.get('/chats', (req, res) => dbHandler.sendAllChats(req, res));
+app.get('/chats', (req, res) => dbHandler.sendAllChats(req, res, testChatID));
 
 //set the express.static middleware
 app.use(express.static(__dirname + "/public"));
@@ -38,7 +43,7 @@ socket.on("connection", (socket)=>{
     socket.on("chat message", function(msg) {
         console.log("message: " + msg);
         socket.broadcast.emit("received",{message: msg})
-        dbHandler.addMessage(msg, "Anonymous");
+        dbHandler.addMessage(msg, testUserID, testChatID); // message, userid, chatid
     });
 });
 

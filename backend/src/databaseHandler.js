@@ -27,19 +27,19 @@ function handle_database(req, res) {
     });
 }
 
-function addMessage(msg, name) {
-    pool.query("INSERT INTO testchat (message, name) VALUES ( ?, ?)",[msg, name],(err, result)=> {
+function addMessage(msg, user_id, chat_id) {
+    pool.query("INSERT INTO chatlog (user_id, chat_id, message) VALUES ( ?, ?, ?)",[user_id, chat_id, msg],(err, result)=> {
         if (err) {
-            res.json({'code' : 100, 'status' : "Error inserting to Database"});
+            console.log("Error inserting to Database");
             return;
         }
         console.log("stored message");
     })
 }
 
-function sendAllChats(req, res) {
+function sendAllChats(req, res, chat_id) {
 
-    pool.query("Select * FROM testchat", (err, rows, fields) => {
+    pool.query("SELECT * FROM chatlog WHERE chat_id = ?",[chat_id], (err, rows, fields) => {
         if (err) {
             res.json({'code' : 100, 'status' : "Error selecting from Database"});
             return;
