@@ -1,7 +1,7 @@
 const {Group} = require('./Group');
 const {User} = require('./User');
 const Sequelize = require('sequelize');
-const db = require('../config/database');
+const db = require('../modules/database');
 
 const GroupPrivilege = db.define('group_privilege', {
     user_id: {
@@ -30,4 +30,4 @@ const GroupPrivilege = db.define('group_privilege', {
 
 GroupPrivilege.removeAttribute('id');
 
-exports = GroupPrivilege;
+module.exports.GroupPrivilege = GroupPrivilege;

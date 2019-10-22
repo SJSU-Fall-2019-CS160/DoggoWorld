@@ -4,11 +4,11 @@ const {User, validate} = require('../models/User');
 const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
-
+const tokenGen = require('../modules/authtoken');
 
 
 // return the profile information from profile table
-router.get('/me',auth, async (req, res) => {
+router.get('/me', auth, async (req, res) => {
     const user = await User.findByPk(req.user.id, { attributes: {exclude: ['password']} });
     res.send(user);
 });
@@ -25,7 +25,7 @@ router.get('/me',auth, async (req, res) => {
  *  }
  * Response
  * JsonWebToken in header as x-auth-token
- * Json body of {id, name, email}
+ * Json body of {id: NUMBER, firstname: STRING, lastname: STRING, chats:ARRAY<NUMBER>}
  */
 router.post('/', async (req, res) => {
     const {error} = validate(req.body);
@@ -36,13 +36,12 @@ router.post('/', async (req, res) => {
     if (user) {
         return res.status(400).send('User already registered');
     }
-    user = User.build(_.pick(req.body, ['name', 'email', 'password']));
+    user = User.build(_.pick(req.body, ['first_name','last_name', 'email', 'password']));
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
     await user.save();
-    
-    const token = user.generateAuthToken();
-    res.header('x-auth-token', token).send(_.pick(user, ['id','name', 'email']));
+    const token = await tokenGen.generateAuthToken(user);
+    res.header('x-auth-token', token).send(_.pick(user, ['id','first_name','last_name', 'email']));
 });
 
 module.exports = router;

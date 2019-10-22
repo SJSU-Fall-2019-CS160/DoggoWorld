@@ -1,7 +1,5 @@
-const config = require('config');
-const jwt = require('jsonwebtoken');
 const Sequelize = require('sequelize');
-const db = require('../config/database');
+const db = require('../modules/database');
 const Joi = require('@hapi/joi');
 
 const User = db.define('user', {
@@ -36,19 +34,14 @@ const User = db.define('user', {
     }
 });
 
-User.prototype.generateAuthToken = function() {
-    const token = jwt.sign({ id: this.id, first_name: this.first_name, last_name: this.last_name }, config.get('jwtPrivateKey'));
-    return token;
-}
-
 function validateUser(user) {
-    const schema = {
+    const schema = Joi.object({
         first_name:  Joi.string().min(3).max(50).required(),
         last_name: Joi.string().min(3).max(50).required(),
         email: Joi.string().min(5).max(255).required().email(),
         password: Joi.string().min(5).max(255).required()
-    }
-    return Joi.validate(user, schema);
+    });
+    return schema.validate(user);
 
 }
 exports.User = User;

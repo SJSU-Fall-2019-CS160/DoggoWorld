@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
+
+// returns the authenticated user object in res.user
 module.exports = function (req, res, next) {
     const token = req.header('x-auth-token');
     if (!token) {

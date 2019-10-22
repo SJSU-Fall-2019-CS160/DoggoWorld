@@ -1,7 +1,7 @@
 const {Event} = require('./Event');
 const {User} = require('./User');
 const Sequelize = require('sequelize');
-const db = require('../config/database');
+const db = require('../modules/database');
 
 const Guestlist = db.define('user_attends_event', {
     user_id: {

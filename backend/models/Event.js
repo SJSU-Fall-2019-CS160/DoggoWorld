@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require('../config/database');
+const db = require('../modules/database');
 const Joi = require('@hapi/joi')
     .extend(require('@hapi/joi-date'));
 
@@ -27,13 +27,13 @@ const Event = db.define('event', {
 
 
 function validateEvent(event) {
-    const schema = {
+    const schema = Joi.object({
        name:  Joi.string().min(3).max(50).required(),
        description: Joi.string().min(0).max(255).optional(),
        date: Joi.date().format('YYYY-MM-DD'),
        time: Joi.string().regex(/^((2[0-4])|([0-1][0-9]))\:([0-5][0-9])\:([0-5][0-9])$/) // HH:MM:SS
-    }
-    return Joi.validate(event, schema);
+    });
+    return schema.validate(event);
 
 }
 exports.Event = Event;

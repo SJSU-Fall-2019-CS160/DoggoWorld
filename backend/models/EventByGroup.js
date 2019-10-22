@@ -1,7 +1,7 @@
 const {Event} = require('./Event');
 const {Group} = require('./Group');
 const Sequelize = require('sequelize');
-const db = require('../config/database');
+const db = require('../modules/database');
 
 const EventByGroup = db.define('event_by_group', {
     group_id: {

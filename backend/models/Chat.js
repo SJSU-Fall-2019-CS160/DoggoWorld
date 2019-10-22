@@ -1,4 +1,4 @@
-const db = require('../config/database');
+const db = require('../modules/database');
 const {User} = require('./User');
 const {Group} = require('./Group');
 const Sequelize = require('sequelize');

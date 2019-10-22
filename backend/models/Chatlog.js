@@ -1,9 +1,7 @@
-
-
 const Sequelize = require('sequelize');
 const {User} = require('./User');
 const {Chat} = require('./Chat');
-const db = require('../config/database');
+const db = require('../modules/database');
 
 const Chatlog = db.define('chatlog', {
     user_id: {

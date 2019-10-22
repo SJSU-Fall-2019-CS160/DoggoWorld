@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require('../config/database');
+const db = require('../modules/database');
 const Joi = require('@hapi/joi');
 
 const Group = db.define('event_group', {
@@ -13,10 +13,10 @@ const Group = db.define('event_group', {
 });
 
 function validateGroup(group) {
-    const schema = {
+    const schema = Joi.object({
        name:  Joi.string().min(3).max(50).required()
-    }
-    return Joi.validate(group, schema);
+    });
+    return schema.validate(group);
 
 }
 exports.Group = Group;
