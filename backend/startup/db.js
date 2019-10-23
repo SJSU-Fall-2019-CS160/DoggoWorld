@@ -8,6 +8,7 @@ require('../models/EventByGroup');
 require('../models/Chatlog');
 require('../models/GroupPrivilege');
 require('../models/Guestlist');
+require('../models/Profile');
 
 module.exports = async function() {
     db.authenticate()
