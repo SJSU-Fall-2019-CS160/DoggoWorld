@@ -11,7 +11,7 @@ import MiniProfile from './components/MiniProfile'
 import Home from './components/Home'
 import Chat from './components/Chat'
 import Login from './components/Login'
-
+import axios from 'axios';
 
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
