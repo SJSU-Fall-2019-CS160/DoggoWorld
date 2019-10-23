@@ -4,13 +4,7 @@ const db = require('../modules/database');
 const Joi = require('@hapi/joi');
 
 const Profile = db.define('profile', {
-    user_id: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: User,
-            key: 'id'
-        }
-    },
+
     img_path: {
         type: Sequelize.STRING
     },

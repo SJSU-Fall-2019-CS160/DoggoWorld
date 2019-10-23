@@ -2,7 +2,8 @@ const Sequelize = require('sequelize');
 const db = require('../modules/database');
 const Joi = require('@hapi/joi');
 
-const Group = db.define('event_group', {
+
+const Group = db.define('mygroup', {
     name: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -20,4 +21,4 @@ function validateGroup(group) {
 
 }
 exports.Group = Group;
-exports.validate = validateGroup;
+exports.validateGroup = validateGroup;

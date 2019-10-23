@@ -11,7 +11,8 @@ const database = new Sequelize('doggoworld', 'nodeuser', 'nodetest', {
     },
     define: {
         timestamps: false,
-        freezeTableName: true
+        freezeTableName: true,
+        underscored: true
     }
 });
 

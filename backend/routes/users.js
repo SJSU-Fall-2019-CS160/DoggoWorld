@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const db = require('../modules/database');
-const {User, validate} = require('../models/User');
+const {User, validateUser} = require('../models/User');
 const {Profile, validateProfile} = require('../models/Profile');
 const auth = require('../middleware/auth');
 const express = require('express');
@@ -58,13 +58,14 @@ router.post('/me', auth, async (req, res) => {
  * Get another user's profile
  */
 router.get('/:id', async (req, res) => {
+
     const profile = await Profile.findOne({ 
         where: { user_id: req.params.id}
     });
     if (!profile) {
         return res.status(404).send("user not found");
     }
-    res.send(profile);
+    res.send("profile");
 });
 
 /**
@@ -88,7 +89,7 @@ router.get('/:id', async (req, res) => {
  * }
  */
 router.post('/', async (req, res) => {
-    const {error} = validate(req.body);
+    const {error} = validateUser(req.body);
     if (error) {
         return res.status(400).send(error.details[0].message);
     }
@@ -100,11 +101,16 @@ router.post('/', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
 
+
+
+
+
     let transaction;
     try {
         transaction = await db.transaction();
-        await user.save({transaction});
-        await Profile.create({user_id: user.id}, {transaction});
+        user = await user.save({transaction});
+        await user.createProfile({bio:"test2"}, {transaction});
+        // await Profile.create({bio:"test", user_id: user.id}, {transaction});
         await transaction.commit();
     } catch (err) {
         console.log(err.message);

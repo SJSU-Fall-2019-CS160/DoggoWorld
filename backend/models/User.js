@@ -32,7 +32,7 @@ const User = db.define('user', {
             len: [5, 1024]
         }
     }
-});
+},{underscored: true});
 
 function validateUser(user) {
     const schema = Joi.object({
@@ -45,4 +45,4 @@ function validateUser(user) {
 
 }
 exports.User = User;
-exports.validate = validateUser;
+exports.validateUser = validateUser;

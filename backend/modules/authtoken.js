@@ -14,12 +14,7 @@ generateAuthToken = async function(user) {
         }
     });
     chats = chats.map(chat => chat.id);
-    let groups = await GroupPrivilege.findAll({
-        attributes: ['group_id'],
-        where: {
-            user_id: user.id
-        }
-    });
+    let groups = await user.getGroups();
     groups = groups.map(group => group.id);
     payload.chats = chats;
     payload.groups = groups;

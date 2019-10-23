@@ -18,7 +18,7 @@ const Chat = db.define('chat', {
             key: 'id'
         }
     },
-    group_id: {
+    mygroup_id: {
         type: Sequelize.INTEGER,
         references: {
             model: Group,

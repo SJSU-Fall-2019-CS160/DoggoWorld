@@ -4,20 +4,7 @@ const Sequelize = require('sequelize');
 const db = require('../modules/database');
 
 const GroupPrivilege = db.define('group_privilege', {
-    user_id: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: User,
-            key: 'id'
-        }
-    },
-    group_id: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Group,
-            key: 'id'
-        }
-    },
+
     owns: {
         type: Sequelize.BOOLEAN, 
         defaultValue: false

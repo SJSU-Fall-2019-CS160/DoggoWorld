@@ -4,20 +4,6 @@ const {Chat} = require('./Chat');
 const db = require('../modules/database');
 
 const Chatlog = db.define('chatlog', {
-    user_id: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: User,
-            key: 'id'
-        }
-    },
-    chat_id: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: Chat,
-            key: 'id'
-        }
-    },
     message: {
         type: Sequelize.STRING(511), 
         allowNull: false
@@ -31,4 +17,4 @@ const Chatlog = db.define('chatlog', {
 
 Chatlog.removeAttribute('id');
 
-exports = Chatlog;
+exports.Chatlog = Chatlog;

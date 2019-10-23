@@ -37,4 +37,4 @@ function validateEvent(event) {
 
 }
 exports.Event = Event;
-exports.validate = validateEvent;
+exports.validateEvent = validateEvent;
