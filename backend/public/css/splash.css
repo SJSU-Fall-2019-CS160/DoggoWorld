@@ -1,0 +1,429 @@
+.mediaViewInfo {
+	--web-view-name: Homepage;
+	--web-view-id: Homepage;
+	--web-enable-deep-linking: true;
+}
+:root {
+	--web-view-ids: Homepage;
+}
+* {
+	margin: 0;
+	padding: 0;
+}
+.btn:hover {
+	fill: rgba(255,5,19,1);
+}
+#Homepage {
+	position: absolute;
+	box-sizing: border-box;
+	background: #E5E5E5;
+	width: 1920px;
+	height: 4103px;
+	background-color: rgba(255,255,255,1);
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	--web-view-name: Homepage;
+	--web-view-id: Homepage;
+	--web-enable-deep-linking: true;
+}
+.Rectangle_33 {
+	position: absolute;
+	overflow: visible;
+	width: 1920px;
+	height: 1217px;
+	left: 0px;
+	top: 0px;
+}
+.Rectangle_36 {
+	position: absolute;
+	overflow: visible;
+	width: 1933px;
+	height: 2895px;
+	left: -6px;
+	top: 1207px;
+}
+.loo {
+	overflow: visible;
+	position: absolute;
+	top: 179px;
+	left: 87px;
+	width: 299px;
+	height: 0px;
+	transform: matrix(1,0,0,1,0,0);
+}
+#Ellipse_1 {
+	opacity: 0.2;
+}
+.Ellipse_1 {
+	position: absolute;
+	overflow: visible;
+	width: 574px;
+	height: 547px;
+	left: -188px;
+	top: 371px;
+}
+.Rectangle_35 {
+	position: absolute;
+	overflow: visible;
+	width: 202px;
+	height: 72px;
+	left: 1631px;
+	top: 42px;
+}
+#Login_Sign_Up {
+	position: absolute;
+	left: 1657px;
+	top: 63px;
+	overflow: visible;
+	width: 151px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Raleway;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 22px;
+	color: rgba(255,255,255,1);
+}
+#DoggoWorld {
+	position: absolute;
+	left: 84px;
+	top: 348px;
+	overflow: visible;
+	width: 969px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 150px;
+	color: rgba(255,255,255,1);
+}
+#A_platform_for_dog_enthusiasts {
+	position: absolute;
+	left: 90px;
+	top: 687px;
+	overflow: visible;
+	width: 869px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: lighter;
+	font-size: 26px;
+	color: rgba(255,255,255,1);
+}
+.Rectangle_34 {
+	position: absolute;
+	overflow: visible;
+	width: 279px;
+	height: 96px;
+	left: 87px;
+	top: 929px;
+}
+.Rectangle_50 {
+	position: absolute;
+	overflow: visible;
+	width: 279px;
+	height: 96px;
+	left: 392px;
+	top: 929px;
+}
+#Log_in {
+	position: absolute;
+	left: 174px;
+	top: 961px;
+	overflow: visible;
+	width: 86px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Raleway;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 30px;
+	color: rgba(255,255,255,1);
+}
+#Sign_Up {
+	position: absolute;
+	left: 475px;
+	top: 961px;
+	overflow: visible;
+	width: 110px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Raleway;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 30px;
+	color: rgba(255,255,255,1);
+}
+.Rectangle_49 {
+	position: absolute;
+	overflow: visible;
+	width: 123px;
+	height: 117px;
+	left: 1187px;
+	top: 0px;
+}
+#About__________Support________ {
+	position: absolute;
+	left: 1216px;
+	top: 63px;
+	overflow: visible;
+	width: 366px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 22px;
+	color: rgba(255,255,255,1);
+}
+#Group_34 {
+	position: absolute;
+	width: 437px;
+	height: 387px;
+	left: 905px;
+	top: 2036px;
+	overflow: visible;
+}
+#Layer_2_copy {
+	opacity: 0.19;
+}
+.Layer_2_copy {
+	position: absolute;
+	overflow: visible;
+	width: 437px;
+	height: 195px;
+	left: 0px;
+	top: 192px;
+}
+#Layer_2_copy_A0_Rectangle_9 {
+	opacity: 0.19;
+}
+.Layer_2_copy_A0_Rectangle_9 {
+	position: absolute;
+	overflow: visible;
+	width: 437px;
+	height: 195px;
+	left: 0px;
+	top: 0px;
+}
+#Group_35 {
+	position: absolute;
+	width: 437px;
+	height: 387px;
+	left: 0px;
+	top: 1404px;
+	overflow: visible;
+}
+#Layer_2_copy_A0_Rectangle_11 {
+	opacity: 0.19;
+}
+.Layer_2_copy_A0_Rectangle_11 {
+	position: absolute;
+	overflow: visible;
+	width: 437px;
+	height: 195px;
+	left: 0px;
+	top: 192px;
+}
+#Layer_2_copy_A0_Rectangle_13 {
+	opacity: 0.19;
+}
+.Layer_2_copy_A0_Rectangle_13 {
+	position: absolute;
+	overflow: visible;
+	width: 437px;
+	height: 195px;
+	left: 0px;
+	top: 0px;
+}
+.Layer_2 {
+	position: absolute;
+	overflow: visible;
+	width: 105px;
+	height: 392px;
+	left: 1816px;
+	top: 815px;
+}
+#Group_31 {
+	position: absolute;
+	width: 52px;
+	height: 181.5px;
+	left: 1835px;
+	top: 609px;
+	overflow: visible;
+}
+#ID01 {
+	position: absolute;
+	left: 17.5px;
+	top: 0px;
+	overflow: visible;
+	width: 20px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 20px;
+	color: rgba(255,255,255,1);
+}
+#ID02 {
+	position: absolute;
+	left: 14.5px;
+	top: 50px;
+	overflow: visible;
+	width: 25px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 20px;
+	color: rgba(141,141,141,1);
+}
+#ID03 {
+	position: absolute;
+	left: 14.5px;
+	top: 99px;
+	overflow: visible;
+	width: 25px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 20px;
+	color: rgba(141,141,141,1);
+}
+#ID04 {
+	position: absolute;
+	left: 14.5px;
+	top: 148px;
+	overflow: visible;
+	width: 26px;
+	white-space: nowrap;
+	text-align: left;
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 20px;
+	color: rgba(141,141,141,1);
+}
+#Line_2 {
+	opacity: 0.2;
+}
+.Line_2 {
+	overflow: visible;
+	position: absolute;
+	top: 34.5px;
+	left: 0px;
+	width: 52px;
+	height: 3px;
+}
+#Line_3 {
+	opacity: 0.2;
+}
+.Line_3 {
+	overflow: visible;
+	position: absolute;
+	top: 83.5px;
+	left: 0px;
+	width: 52px;
+	height: 3px;
+}
+#Line_4 {
+	opacity: 0.2;
+}
+.Line_4 {
+	overflow: visible;
+	position: absolute;
+	top: 132.5px;
+	left: 0px;
+	width: 52px;
+	height: 3px;
+}
+#Line_5 {
+	opacity: 0.2;
+}
+.Line_5 {
+	overflow: visible;
+	position: absolute;
+	top: 181.5px;
+	left: 0px;
+	width: 52px;
+	height: 3px;
+}
+#About_DoggoWorld {
+	position: absolute;
+	left: 87px;
+	top: 1514px;
+	overflow: visible;
+	width: 582px;
+	white-space: nowrap;
+	line-height: 108px;
+	margin-top: -24px;
+	text-align: left;
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 60px;
+	color: rgba(255,255,255,1);
+}
+#Soon__ {
+	position: absolute;
+	left: 87px;
+	top: 1673px;
+	overflow: hidden;
+	width: 847px;
+	height: 437px;
+	line-height: 55px;
+	margin-top: -15.5px;
+	text-align: left;
+	font-family: Poppins;
+	font-style: normal;
+	font-weight: lighter;
+	font-size: 24px;
+	color: rgba(255,255,255,1);
+}
+.Line_6 {
+	overflow: visible;
+	position: absolute;
+	top: 1624.5px;
+	left: 87.5px;
+	width: 345px;
+	height: 2px;
+}
+.Layer_2_copy_A0_Rectangle_17 {
+	position: absolute;
+	overflow: visible;
+	width: 590px;
+	height: 263px;
+	left: 518px;
+	top: 0px;
+}
+.Line_12 {
+	overflow: visible;
+	position: absolute;
+	top: 124.5px;
+	left: 1187.5px;
+	width: 123px;
+	height: 1px;
+}
+.adorable_animal_breed_1490908 {
+	position: absolute;
+	overflow: visible;
+	width: 731px;
+	height: 742px;
+	left: 1093px;
+	top: 235px;
+}
+.adorable_animal_animal_lover_2 {
+	position: absolute;
+	overflow: visible;
+	width: 731px;
+	height: 742px;
+	left: 1072px;
+	top: 1442px;
+}

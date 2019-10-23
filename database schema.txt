@@ -1,0 +1,108 @@
+## table name : user
+
+
+ENTITIES
+
+## table name: user
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| user_id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| first_name | varchar(20)  | NO   |     | NULL    |                |
+| last_name  | varchar(20)  | NO   |     | NULL    |                |
+| password   | varchar(255) | NO   |     | NULL    |                |
+| salt       | varchar(255) | NO   |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+
+
+## table name: profile
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| user_id | int(11)      | YES  | MUL | NULL    |       |
+| pic_ref | varchar(127) | YES  |     | NULL    |       |
+| bio     | varchar(511) | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+
+
+## table name: event_group
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| group_id | int(11)     | NO   | PRI | NULL    | auto_increment |
+| name     | varchar(63) | NO   |     | NULL    |                |
+| chat_id  | int(11)     | YES  | MUL | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+
+
+## table name: chat
++---------+---------+------+-----+---------+----------------+
+| Field   | Type    | Null | Key | Default | Extra          |
++---------+---------+------+-----+---------+----------------+
+| chat_id | int(11) | NO   | PRI | NULL    | auto_increment |
++---------+---------+------+-----+---------+----------------+
+
+
+## table name: event
++----------+----------+------+-----+---------+----------------+
+| Field    | Type     | Null | Key | Default | Extra          |
++----------+----------+------+-----+---------+----------------+
+| event_id | int(11)  | NO   | PRI | NULL    | auto_increment |
+| date     | datetime | YES  |     | NULL    |                |
++----------+----------+------+-----+---------+----------------+
+
+
+CHAT FUNCTION
+
+## table name: user_chat
++----------+---------+------+-----+---------+-------+
+| Field    | Type    | Null | Key | Default | Extra |
++----------+---------+------+-----+---------+-------+
+| user_one | int(11) | YES  | MUL | NULL    |       |
+| user_two | int(11) | YES  | MUL | NULL    |       |
+| chat_id  | int(11) | YES  | MUL | NULL    |       |
++----------+---------+------+-----+---------+-------+
+
+
+## table name: chatlog
++------------+--------------+------+-----+-------------------+-------------------+
+| Field      | Type         | Null | Key | Default           | Extra             |
++------------+--------------+------+-----+-------------------+-------------------+
+| user_id    | int(11)      | YES  | MUL | NULL              |                   |
+| chat_id    | int(11)      | YES  | MUL | NULL              |                   |
+| message    | varchar(511) | YES  |     | NULL              |                   |
+| created_at | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++------------+--------------+------+-----+-------------------+-------------------+
+
+
+EVENT FUNCTION
+
+## table name: event_by_group
++----------+---------+------+-----+---------+-------+
+| Field    | Type    | Null | Key | Default | Extra |
++----------+---------+------+-----+---------+-------+
+| group_id | int(11) | YES  | MUL | NULL    |       |
+| event_id | int(11) | YES  | MUL | NULL    |       |
++----------+---------+------+-----+---------+-------+
+
+
+## table name: user_attends_event
++----------+---------+------+-----+---------+-------+
+| Field    | Type    | Null | Key | Default | Extra |
++----------+---------+------+-----+---------+-------+
+| user_id  | int(11) | YES  | MUL | NULL    |       |
+| event_id | int(11) | YES  | MUL | NULL    |       |
++----------+---------+------+-----+---------+-------+
+
+
+GROUP MANAGEMENT
+
+## table name: user_relation_group
++----------+------------+------+-----+---------+-------+
+| Field    | Type       | Null | Key | Default | Extra |
++----------+------------+------+-----+---------+-------+
+| user_id  | int(11)    | YES  | MUL | NULL    |       |
+| group_id | int(11)    | YES  | MUL | NULL    |       |
+| owns     | tinyint(1) | NO   |     | 0       |       |
+| manages  | tinyint(1) | NO   |     | 0       |       |
++----------+------------+------+-----+---------+-------+
