@@ -11,10 +11,14 @@ User.hasOne(Profile);
 Profile.belongsTo(User);
 Group.hasMany(Event);
 Event.belongsTo(Group);
-User.hasMany(GroupPrivilege, {as: 'Groups'});
-Group.hasMany(GroupPrivilege, {as: 'Users'});
+User.hasMany(GroupPrivilege, {as: 'Groups', foreignKey: 'user_id'}); // temp fix to Issue #11225
+GroupPrivilege.belongsTo(User);
+Group.hasMany(GroupPrivilege, {as: 'Users', foreignKey: 'mygroup_id'});
+GroupPrivilege.belongsTo(Group);
 User.hasMany(Chatlog);
+Chatlog.belongsTo(User);
 Chat.hasMany(Chatlog);
+Chatlog.belongsTo(Chat);
 User.belongsToMany(Event, {through: 'Guestlist'});
 Event.belongsToMany(User, {through: 'GuestList'});
 
