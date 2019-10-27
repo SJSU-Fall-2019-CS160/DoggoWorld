@@ -9,8 +9,8 @@ const {Profile} = require('../models/Profile');
 
 User.hasOne(Profile);
 Profile.belongsTo(User);
-Group.hasMany(Event,{as: 'Events'});
-Event.belongsTo(Group);
+Group.hasMany(Event, {foreignKey: 'mygroup_id'});
+Event.belongsTo(Group, {foreignKey: 'mygroup_id'});
 User.hasMany(GroupPrivilege, {as: 'Groups', foreignKey: 'user_id'}); // temp fix to Issue #11225
 GroupPrivilege.belongsTo(User, {foreignKey: 'user_id'});
 Group.hasMany(GroupPrivilege, {as: 'Users', foreignKey: 'mygroup_id'});

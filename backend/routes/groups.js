@@ -1,8 +1,10 @@
-
+const Joi = require('@hapi/joi');
+const _ = require('lodash');
+const {toIso8601, toMysql} = require('../modules/datetime');
 const db = require('../modules/database');
-const {Group, validateGroup, validateGroupId} = require('../models/Group');
+const {Group, validateGroup} = require('../models/Group');
 const {GroupPrivilege} = require('../models/GroupPrivilege');
-const {Event} = require('../models/Event');
+const {Event, validateEvent} = require('../models/Event');
 const {User, validateUser} = require('../models/User');
 const auth = require('../middleware/auth');
 const express = require('express');
@@ -50,9 +52,7 @@ router.get('/search', async (req, res) => {
  * */ 
 router.get('/my', auth, async (req, res) => {
     const user = await User.findByPk(req.user.id);
-    const groups = await user.getGroups({
-        include:[Group]
-    });
+    const groups = await user.getGroups({include:[Group]});
     const resArray = groups.map(grp => {
         const obj = {
             owns: grp.owns,
@@ -80,10 +80,9 @@ router.get('/my', auth, async (req, res) => {
  * }
  * */
 router.post('/', auth, async (req, res) => {
+    /!-CREATE A CHAT FOR THE GROUP-/
     const {error} = validateGroup(req.body);
-    if (error) {
-        return res.status(400).send(error.details[0].message);
-    }
+    if (error) return res.status(400).send(error.details[0].message);
     let transaction;
     try {
         transaction = await db.transaction();
@@ -117,14 +116,10 @@ router.post('/', auth, async (req, res) => {
  * }
  * */
 router.post('/:id/join', auth, async (req, res) => {
-    const {error} = validateGroupId(req.params.id);
-    if (error) {
-        return res.status(404).send("group invalid");
-    }
+    const {error} = validateId(req.params.id);
+    if (error) return res.status(400).send("group invalid");
     const group = await Group.findByPk(req.params.id);
-    if (!group) {
-        return res.status(404).send("group not found");
-    }
+    if (!group) return res.status(404).send("group not found");
     const [model, created] = await GroupPrivilege.findOrCreate({
         where: {
             user_id: req.user.id,
@@ -140,60 +135,80 @@ router.post('/:id/join', auth, async (req, res) => {
  * Response
  * {
  *   "id": [number],
- *   "name": [string],
- *   "Users": [
- *       {
- *           "owns": [boolean],
- *           "manages": [boolean],
- *           "user": {
- *               "id": [number],
- *               "first_name": [string],
- *               "last_name": [string]
- *           }
- *       },
- *       {...},
- *       {...}
- *   ],
- *   "Events": [
- *      {
- *           "id":[number],
- *           "name":[string],
- *           "description":[string],
- *           "date":[mysqldate],
- *           "time":[mysqltime]
- *      }
- *   ]
+ *   "name": [string]
  * }
  * */
 router.get('/:id', async (req, res) => {
-    const {error} = validateGroupId(req.params.id);
-    if (error) {
-        return res.status(404).send("group invalid");
-    }
-    const group = await Group.findByPk(req.params.id, {
-        include:[
-            {
-                model: GroupPrivilege, 
-                as:'Users', 
-                attributes:['owns','manages'],
-                include:[
-                    {
-                        model: User,
-                        attributes:['id','first_name','last_name']
-                    }
-                ]
-            },
-            {
-                model: Event, 
-                as: 'Events',
-                attributes:['id', 'name', 'description', 'date', 'time']
-            }
-        ]
-    });
-    if (!group) {
-        return res.status(404).send("group not found");
-    }
+    const {error} = validateId(req.params.id);
+    if (error) return res.status(400).send("group invalid");
+    const group = await Group.findByPk(req.params.id);
+    if (!group) return res.status(404).send("group not found");
     res.send(group);
+});
+
+/**
+ * Get a group's member users
+ * GET request.
+ * Response
+ * {
+ *   "members": [
+ *       {
+ *           "id": [number],
+ *           "first_name": [string],
+ *           "last_name": [string],
+ *           "owns": [boolean],
+ *           "manages": [boolean]
+ *       },
+ *       {...},
+ *       {...}
+ *   ]
+ * }
+ * */
+router.get('/:id/members', async (req, res) => {
+    const {error} = validateId(req.params.id);
+    if (error) return res.status(400).send("group invalid");
+    const group = await Group.findByPk(req.params.id);
+    if (!group) return res.status(404).send("group not found");
+    const members = await group.getUsers({include:[User]});
+    //refactor the following to be async
+    const resArr = members.map( user => {
+        const obj = {
+            id: user.user.id,
+            first_name: user.user.first_name,
+            last_name: user.user.last_name,
+            owns: user.owns,
+            manages: user.manages
+        };
+        return obj;
+    });
+    res.send({members: resArr});
+});
+
+/**
+ * Get a group's events
+ * GET request.
+ * Response
+ * {
+ *      "events": [
+ *             {
+ *                 "id": [number],
+ *                 "name": [string],
+ *                 "description": [string],
+ *                 "date": "YYYY-MM-DD",
+ *                 "time": "HH:MM:SS"
+ *             },
+ *             {...},
+ *             {...}
+ *       ]
+ * }
+ * */
+router.get('/:id/events', async (req, res) => {
+    const {error} = validateId(req.params.id);
+    if (error) return res.status(400).send("group invalid");
+    const group = await Group.findByPk(req.params.id);
+    if (!group) return res.status(404).send("group not found");
+    const events = await group.getEvents({attributes:{exclude:['mygroup_id']}});
+    res.send({events});
 });
 
 /--ADMIN ACESSES BELOW--/
@@ -206,37 +221,85 @@ router.get('/:id', async (req, res) => {
  * }
  * */
 router.post('/:id/edit', auth, async (req, res) => {
-    const {error : err1} = validateGroupId(req.params.id);
-    if (err1) {
-        return res.status(404).send("group invalid");
-    }
-
-    const {error: err2} = validateGroup(req.body);
-    if (err2) {
-        return res.status(400).send(err2.details[0].message);
-    }
-    const admin = await GroupPrivilege.findOne({
-        where: {
-            user_id: req.user.id,
-            mygroup_id: req.params.id,
-            manages: true
-        }
-    });
-    if (!admin) {
-        return res.status(403).send("User does not have editing privileges");
-    }
+    let joiObj = validateId(req.params.id);
+    if (joiObj.error) return res.status(400).send("group invalid");
+    joiObj = validateGroup(req.body);
+    if (joiObj.error) return res.status(400).send(joiObj.error.details[0].message);
+    const isAdmin = await assertAdmin(req.user.id, req.params.id, res);
+    if (!isAdmin) return;
     const group = await admin.getMygroup();
     group.update({name: req.body.name});
     res.send("Group name updated");
 });
 
-// Create event for group
-router.post('/:id/event', auth, async (req, res) => {
-
-});
-
-// Create admin for group
+/**
+ * Set admin for group
+ * POST request.
+ * Provide JWT token
+ * */
 router.post('/:id/makeadmin/:userid', auth, async (req, res) => {
-
+    let joiObj = validateId(req.params.id);
+    if (joiObj.error) return res.status(400).send("group invalid");
+    joiObj = validateId(req.params.userid);
+    if (joiObj.error) return res.status(400).send("user invalid");
+    const isAdmin = await assertAdmin(req.user.id, req.params.id, res);
+    if (!isAdmin) return;
+    const target = await GroupPrivilege.findOne({
+        where: {
+            user_id: req.params.userid,
+            mygroup_id: req.params.id
+        }
+    });
+    if (!target) return res.status(404).send("User not in group");
+    if (!target.manages) target.update({manages:true});
+    res.send(`Set user:${target.user_id} to admin for group:${target.mygroup_id}`);
 });
+
+// MYSQL DATE: yyyy-mm-dd
+// MYSQL TIME: HH:MM:SS
+/**
+ * Create event for group
+ * POST request.
+ * Provide JWT token
+ * {
+ *      "name":[string],
+ *      "description":[string],
+ *      "date": "YYYY-MM-DD",
+ *      "time": "HH:MM:SS"
+ * }
+ * */
+router.post('/:id/event', auth, async (req, res) => {
+    let joiObj = validateId(req.params.id);
+    if (joiObj.error) return res.status(400).send("group invalid");
+    joiObj = validateEvent(req.body);
+    if (joiObj.error) return res.status(400).send(joiObj.error.details[0].message);
+    const isAdmin = await assertAdmin(req.user.id, req.params.id, res);
+    if (!isAdmin) return;
+    const group = await Group.findByPk(req.params.id);
+    if (!group) return res.status(404).send("Group not found");
+    await group.createEvent(req.body);
+    res.send('success');
+});
+
+/--TODO: event editing--, maybe in new router/
+
+function validateId(id) {
+    const schema = Joi.number().integer().min(1).required();
+    return schema.validate(id);
+}
+
+async function assertAdmin(user_id, mygroup_id, res) {
+    const admin = await GroupPrivilege.findOne({
+        where: {
+            user_id,
+            mygroup_id,
+            manages: true
+        }
+    });
+    if (!admin) {
+        res.status(403).send("User does not have privileges complete action");
+        return false;
+    }
+    return true;
+}
 module.exports = router;
