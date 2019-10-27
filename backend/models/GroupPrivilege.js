@@ -15,6 +15,7 @@ const GroupPrivilege = db.define('group_privilege', {
     }
 });
 
-GroupPrivilege.removeAttribute('id');
+// require unique identification for search
+//GroupPrivilege.removeAttribute('id');
 
 module.exports.GroupPrivilege = GroupPrivilege;

@@ -20,5 +20,10 @@ function validateGroup(group) {
     return schema.validate(group);
 
 }
+function validateGroupId(id) {
+    const schema = Joi.number().integer().min(1).required();
+    return schema.validate(id);
+}
 exports.Group = Group;
 exports.validateGroup = validateGroup;
+exports.validateGroupId = validateGroupId;

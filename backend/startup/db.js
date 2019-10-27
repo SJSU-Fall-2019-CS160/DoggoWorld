@@ -9,15 +9,15 @@ const {Profile} = require('../models/Profile');
 
 User.hasOne(Profile);
 Profile.belongsTo(User);
-Group.hasMany(Event);
+Group.hasMany(Event,{as: 'Events'});
 Event.belongsTo(Group);
 User.hasMany(GroupPrivilege, {as: 'Groups', foreignKey: 'user_id'}); // temp fix to Issue #11225
-GroupPrivilege.belongsTo(User);
+GroupPrivilege.belongsTo(User, {foreignKey: 'user_id'});
 Group.hasMany(GroupPrivilege, {as: 'Users', foreignKey: 'mygroup_id'});
-GroupPrivilege.belongsTo(Group);
-User.hasMany(Chatlog);
+GroupPrivilege.belongsTo(Group, {foreignKey: 'mygroup_id'});
+User.hasMany(Chatlog, {as: 'Chatlogs'});
 Chatlog.belongsTo(User);
-Chat.hasMany(Chatlog);
+Chat.hasMany(Chatlog, {as:'Chatlogs'});
 Chatlog.belongsTo(Chat);
 User.belongsToMany(Event, {through: 'Guestlist'});
 Event.belongsToMany(User, {through: 'GuestList'});
