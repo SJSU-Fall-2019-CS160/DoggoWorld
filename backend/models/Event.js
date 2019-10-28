@@ -36,5 +36,15 @@ function validateEvent(event) {
     return schema.validate(event);
 
 }
+function validateEventUpdate(event) {
+    const schema = Joi.object({
+        name:  Joi.string().min(3).max(50).optional(),
+        description: Joi.string().min(0).max(255).optional(),
+        date: Joi.date().format('YYYY-MM-DD').optional(),
+        time: Joi.string().regex(/^((2[0-4])|([0-1][0-9]))\:([0-5][0-9])\:([0-5][0-9])$/).message("time must be in format HH:MM:SS").optional() // HH:MM:SS
+     });
+     return schema.validate(event);
+}
 exports.Event = Event;
 exports.validateEvent = validateEvent;
+exports.validateEventUpdate = validateEventUpdate;

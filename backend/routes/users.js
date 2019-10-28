@@ -131,7 +131,7 @@ router.post('/', async (req, res) => {
         return res.status(500).send('Could not create account');
     }
     const token = await tokenGen.generateAuthToken(user);
-    res.header('x-auth-token', token).send(_.omit(user, ['password']));
+    res.header('x-auth-token', token).send(_.pick(user, ['id', 'first_name', 'last_name', 'email']));
 });
 
 module.exports = router;
