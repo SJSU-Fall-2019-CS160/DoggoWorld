@@ -30,13 +30,16 @@ export default class Login extends Component {
         console.log("Login")
         return (
             <div>
-                <h1>
-                    LoginPage
-                </h1>
+            <h1>{"DoggoWorld"}<hr/></h1>
+            
+                
             
                 
                 <div class="row">
                     <div class="column"><Form>
+                    <h1>
+                    Login
+                </h1>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control type="email" placeholder="Enter email" value={this.state.email} onChange={e => this.handleEmailChange(e)} />
@@ -51,11 +54,14 @@ export default class Login extends Component {
                 </Form.Group>
 
                 <Button variant="primary" type="button" onClick={e => this.handleLogin()}>
-                    Submit
+                    Login
                 </Button>
                 </Form></div>
                     <div class="column"><Form>
-                <Form.Group controlId="formBasicEmail">
+                    <h1>
+                    Signups
+                </h1>
+                <Form.Group controlId="newFormBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control type="email" placeholder="Enter email" />
                     <Form.Text className="text-muted">
@@ -63,13 +69,17 @@ export default class Login extends Component {
                     </Form.Text>
                 </Form.Group>
 
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
+                <Form.Group controlId="createPassword">
+                    <Form.Label>Create Password</Form.Label>
+                    <Form.Control type="password" placeholder="Password" />
+                </Form.Group>
+                <Form.Group controlId="reEnteredPassword">
+                    <Form.Label>Re-Enter Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" />
                 </Form.Group>
 
                 <Button variant="primary" type="submit">
-                    Submit
+                    Sign Up
                 </Button>
                 </Form></div>
                 </div>

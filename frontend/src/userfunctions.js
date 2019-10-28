@@ -11,7 +11,7 @@ const postLogin = async function(cred) {
         const token = res.headers["x-auth-token"];
         console.log(token);
         localStorage.setItem('authToken', token);
-        const decoded = jwt.decode(token);
+        const decoded = jwt.decode(token, {complete: true});
         localStorage.setItem('myData', decoded.payload);
         return true;
     }

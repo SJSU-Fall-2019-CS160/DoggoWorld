@@ -28,26 +28,12 @@ export default function App(){
       return(
         <Router>
       <div>
-        {/* <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/MiniProfile">miniProfile</Link>
-            </li>
-            <li>
-              <Link to="/Chat">Chat</Link>
-            </li>
-            {/* <li>
-              <Link to="/Login">Login</Link>
-            </li> 
-          </ul>
-        </nav>
+        
+       
         
 
-       A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */} 
+       {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL.  */}
         <Switch>
           <Route path="/Chat">
             <Chat />
