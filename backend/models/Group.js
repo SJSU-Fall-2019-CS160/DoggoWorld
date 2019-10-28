@@ -20,5 +20,6 @@ function validateGroup(group) {
     return schema.validate(group);
 
 }
+
 exports.Group = Group;
 exports.validateGroup = validateGroup;

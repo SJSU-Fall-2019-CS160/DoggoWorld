@@ -6,6 +6,24 @@ const express = require('express');
 const router = express.Router();
 const tokenGen = require('../modules/authtoken');
 
+/**
+ * Login a User:
+ * POST Request.
+ *  req.body=
+ *  {    
+ *      "email": [STRING],
+ *      "password": [STRING]
+ *  }
+ * Response.
+ * JsonWebToken in header as x-auth-token
+ * res.body = 
+ * {    
+ *      "id": [NUMBER], 
+ *      "firstname": [STRING], 
+ *      "lastname": [STRING],
+ *      "email": [STRING]
+ * }
+ */
 router.post('/', async (req, res) => {
     const {error} = validate(req.body);
     if (error) {

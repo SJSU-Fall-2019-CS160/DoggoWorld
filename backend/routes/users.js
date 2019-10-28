@@ -8,22 +8,29 @@ const express = require('express');
 const router = express.Router();
 const tokenGen = require('../modules/authtoken');
 
-
 /**
- * Get user's own profile
+ * Get user's own information
  * GET request.
  * Provide JWT token
  * Response
  * {
- *      "img_path" : [STRING],
- *      "bio" : [STRING]
+ *      "id": [number],
+ *      "first_name": [string],
+ *      "last_name": [string],
+ *      "email": [string],
+ *      "profile": {
+ *          "img_path": [string],
+ *          "bio": [string],
+ *          "userId": [number]
+ *      }
  * }
  * */ 
 router.get('/me', auth, async (req, res) => {
-    const profile = await Profile.findOne({ 
-        where: { user_id: req.user.id}
+    const user = await User.findByPk(req.user.id, {
+        attributes: {exclude: ['password']},
+        include: [Profile]
     });
-    res.send(profile);
+    res.send(user);
 });
 
 /**
@@ -55,17 +62,30 @@ router.post('/me', auth, async (req, res) => {
 });
 
 /**
- * Get another user's profile
- */
+ * Get another user's information
+ * GET request.
+ * Response
+ * {
+ *      "id": [number],
+ *      "first_name": [string],
+ *      "last_name": [string],
+ *      "email": [string],
+ *      "profile": {
+ *          "img_path": [string],
+ *          "bio": [string],
+ *          "userId": [number]
+ *      }
+ * }
+ * */ 
 router.get('/:id', async (req, res) => {
-
-    const profile = await Profile.findOne({ 
-        where: { user_id: req.params.id}
+    const user = await User.findByPk(req.params.id, {
+        attributes: {exclude: ['password']},
+        include: [Profile]
     });
-    if (!profile) {
+    if (!user) {
         return res.status(404).send("user not found");
     }
-    res.send("profile");
+    res.send(user);
 });
 
 /**
@@ -84,8 +104,7 @@ router.get('/:id', async (req, res) => {
  * {    
  *      "id": [NUMBER], 
  *      "firstname": [STRING], 
- *      "lastname": [STRING], 
- *      "chats":[ARRAY<NUMBER>]
+ *      "lastname": [STRING]
  * }
  */
 router.post('/', async (req, res) => {
@@ -100,25 +119,19 @@ router.post('/', async (req, res) => {
     user = User.build(_.pick(req.body, ['first_name','last_name', 'email', 'password']));
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
-
-
-
-
-
     let transaction;
     try {
         transaction = await db.transaction();
         user = await user.save({transaction});
         await user.createProfile({bio:"test2"}, {transaction});
-        // await Profile.create({bio:"test", user_id: user.id}, {transaction});
         await transaction.commit();
     } catch (err) {
         console.log(err.message);
         if (transaction) await transaction.rollback();
+        return res.status(500).send('Could not create account');
     }
-
     const token = await tokenGen.generateAuthToken(user);
-    res.header('x-auth-token', token).send(_.pick(user, ['id','first_name','last_name', 'email']));
+    res.header('x-auth-token', token).send(_.pick(user, ['id', 'first_name', 'last_name', 'email']));
 });
 
 module.exports = router;
