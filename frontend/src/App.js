@@ -11,6 +11,7 @@ import MiniProfile from './components/MiniProfile'
 import Home from './components/Home'
 import Chat from './components/Chat'
 import Login from './components/Login'
+import Main from './components/Main'
 import axios from 'axios';
 
 // This site has 3 pages, all of which are rendered
@@ -37,6 +38,9 @@ export default function App(){
         <Switch>
           <Route path="/Chat">
             <Chat />
+          </Route>
+          <Route path="/Main">
+            <Main />
           </Route>
           {/* <Route path="/Login">
             <Login />

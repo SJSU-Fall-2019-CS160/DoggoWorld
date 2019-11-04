@@ -1,10 +1,13 @@
 import React,{Component} from "react";
 import { Button, Form } from "react-bootstrap";
 import Myfunctions from "../userfunctions";
+import { Redirect } from  'react-router-dom'
 export default class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {email:"", password:""};
+        const redir = sessionStorage.authToken ? true : false;
+        this.state = {email:"", password:"", redirect:redir};
+        
     }
     
     handleEmailChange(e) {
@@ -21,20 +24,32 @@ export default class Login extends Component {
         })
         .then(bool => {
             if (bool) {
+                
                 console.log("Login Successful");
-                console.log(localStorage.getItem('authToken'));
+                console.log(sessionStorage.getItem('authToken'));
+                console.log(sessionStorage.getItem('myData'));
+                console.log("hello")
+                console.log(sessionStorage.getItem('myData'))
+                var getObject = JSON.parse(sessionStorage.getItem('myData')).first_name;
+                console.log(getObject)
+                this.setState({
+                    redirect:true
+                })
+               
             }
         });
     }
+    renderRedirect = () => {
+        if(this.state.redirect) return <Redirect to='/Main' />;
+
+    }
+
     render(){
         console.log("Login")
         return (
             <div>
-            <h1>{"DoggoWorld"}<hr/></h1>
-            
-                
-            
-                
+            {this.renderRedirect()}
+            <h1>{"DoggoWorld"}<hr/></h1>            
                 <div class="row">
                     <div class="column"><Form>
                     <h1>

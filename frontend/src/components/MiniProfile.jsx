@@ -1,12 +1,16 @@
 import React,{Component} from "react";
 export default class MiniProfile extends Component {
-    state = {
+    // state = {
         
-        name: "alex",
-        bio: "something about me",
-        imageUrl: "https://picsum.photos/200"
-     };
+    //     name: "alex",
+    //     bio: "something about me",
+    //     imageUrl: "https://picsum.photos/200"
+    //  };
    
+    constructor(props) {
+        super(props);
+        this.state = {name:JSON.parse(sessionStorage.getItem('myData')).first_name + " " +JSON.parse(sessionStorage.getItem('myData')).last_name, bio:""};
+    }
 
     render() { 
         return (
