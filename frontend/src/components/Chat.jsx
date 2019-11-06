@@ -18,11 +18,11 @@ export default class Chat extends Component {
     asdfa
     sdfas
     dfas
-    df<p>
-        qwerqewr
-    </p>Browser dependent, but typically similar to <code>scroll</code>.</p>
+    df
+    <p>qwerqewra</p>
 
-
+    Browser dependent, but typically similar tsadfsadfasdfasdfasdfasdfadsfasdfasdfasd   o <code>scroll</code>.</p>
+    
 
             </div>
 

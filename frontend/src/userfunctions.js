@@ -7,6 +7,7 @@ const Myfunctions = {}
 const postLogin = async function(cred) {
     console.log('entered post');
     try{
+        
         const res = await axios.post('/api/login', cred) // cred = 'email', 'password'
         console.log('entered success');
         const token = res.headers["x-auth-token"];
@@ -26,7 +27,13 @@ const postLogin = async function(cred) {
             return false;
     }
 }
+const postSignUp = async function(cred){
+            
+            const res = await axios.post('/api/users', cred);
+            console.log("signup")
+        }
 
 
 Myfunctions.postLogin = postLogin;
+Myfunctions.postSignUp = postSignUp;
 export default Myfunctions;

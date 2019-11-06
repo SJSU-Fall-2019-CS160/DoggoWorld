@@ -23,6 +23,33 @@ code {
   display: table;
   clear: both;
 }
+.profileCol{
+
+	float: left;
+	margin:auto;
+	width: 20%;
+	padding: 10px;
+	height: 300px; 
+}
+.chatCol {
+	float: left;
+	width: 49%;
+	padding: 10px;
+	height: 300px; /* Should be removed. Only for demonstration */
+  }
+  .eventCol {
+	float: left;
+	width: 29%;
+	padding: 10px;
+	height: 300px; /* Should be removed. Only for demonstration */
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+	content: "";
+	display: table;
+	clear: both;
+  }
 
 		body {
 			font-size: 25px;

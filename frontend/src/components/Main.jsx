@@ -2,17 +2,32 @@ import React,{Component} from "react";
 import MiniProfile from "./MiniProfile";
 import Chat from "./Chat";
 
+
 export default class Main extends Component {
 
     render() { 
+        
         return (
-            <div>
-            {/* <div class='column'>
-                <MiniProfile></MiniProfile>
+           
+            
+             <div>
+                 <h2>Profile<hr/></h2>
+            <div class='row'>
                 
-            </div> */}
-            <div>
-                <Chat></Chat>
+                
+                <div class = 'profileCol'>
+                    <th><MiniProfile></MiniProfile> </th>
+                    </div>
+                <div class= 'chatCol'>
+                    <Chat></Chat>
+                    </div>
+                
+                <div class = 'eventCol'>
+                    <th><MiniProfile></MiniProfile> </th> 
+                    </div>
+               
+               
+               
             </div>
             {/* <div>
                 <MiniProfile></MiniProfile>
@@ -24,6 +39,7 @@ export default class Main extends Component {
 
 
 
+    
             </div>
             
 
