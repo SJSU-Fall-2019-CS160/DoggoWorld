@@ -1,4 +1,4 @@
-let socket = io.connect(`http://${window.location.hostname}:80`);
+let socket = io.connect(location.origin);
 (function() {
     
     $(".send_message").click(function(e) {
