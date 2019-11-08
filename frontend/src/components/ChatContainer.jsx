@@ -9,12 +9,9 @@ const ChatContainer = props => {
                 <div className="col-md-5">
                     <div className="panel panel-primary">
                         <div className="panel-heading border border-primary shadow p-3 mb-5 bg-white rounded">
-                            <h3>Chat {props.chat.id}</h3>
+                            <h3>Chat {props.chat.name}</h3>
                         </div>
-                        <ChatMessages
-                            messages={props.messages}
-                            name={props.name}
-                        />
+                        <ChatMessages messages={props.messages} />
                         <ChatInput onSend={props.onSend} />
                     </div>
                 </div>
