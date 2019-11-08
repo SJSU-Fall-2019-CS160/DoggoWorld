@@ -1,15 +1,17 @@
 const Joi = require('@hapi/joi');
 const _ = require('lodash');
-const {toIso8601, toMysql} = require('../modules/datetime');
+const { toIso8601, toMysql } = require('../modules/datetime');
 const db = require('../modules/database');
-const {Group, validateGroup} = require('../models/Group');
-const {GroupPrivilege} = require('../models/GroupPrivilege');
-const {Event, validateEvent} = require('../models/Event');
-const {User, validateUser} = require('../models/User');
+const { Group, validateGroup } = require('../models/Group');
+const { GroupPrivilege } = require('../models/GroupPrivilege');
+const { Event, validateEvent } = require('../models/Event');
+const { User, validateUser } = require('../models/User');
+const { Chat } = require('../models/Chat');
 const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
 const tokenGen = require('../modules/authtoken');
+const { alertNewChat } = require('../modules/socketHandler');
 
 
 /**
@@ -26,10 +28,10 @@ const tokenGen = require('../modules/authtoken');
  *       {...}
  *   ]
  * }
- * */ 
+ * */
 router.get('/search', async (req, res) => {
     const groups = await Group.findAll();
-    res.send({groups: groups});
+    res.send({ groups: groups });
 });
 
 /**
@@ -49,10 +51,10 @@ router.get('/search', async (req, res) => {
  *        {...}
  *    ]
  * }
- * */ 
+ * */
 router.get('/my', auth, async (req, res) => {
     const user = await User.findByPk(req.user.id);
-    const groups = await user.getGroups({include:[Group]});
+    const groups = await user.getGroups({ include: [Group] });
     const resArray = groups.map(grp => {
         const obj = {
             owns: grp.owns,
@@ -62,7 +64,7 @@ router.get('/my', auth, async (req, res) => {
         };
         return obj;
     })
-    res.send({groups: resArray});
+    res.send({ groups: resArray });
 });
 
 /**
@@ -80,25 +82,26 @@ router.get('/my', auth, async (req, res) => {
  * }
  * */
 router.post('/', auth, async (req, res) => {
-    /!-CREATE A CHAT FOR THE GROUP-/
-    const {error} = validateGroup(req.body);
+
+    const { error } = validateGroup(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     let transaction;
     try {
         transaction = await db.transaction();
         const user = await User.findByPk(req.user.id); // need available before transaction
-        const privs = await GroupPrivilege.create({
-            owns: true, 
+        const group = await Group.create({ name: req.body.name }, { transaction });
+        const chat = await group.createChat({}, { transaction });
+        const privs = GroupPrivilege.build({
+            owns: true,
             manages: true,
             user_id: user.id,
-            mygroup: { name: req.body.name }
-        }, {
-            include: [Group],
-            transaction
+            mygroup_id: group.id
         });
-        console.log('arrived');
+        await privs.save({ transaction });
         await transaction.commit();
-        res.send(privs);
+        console.log('Created group');
+        alertNewChat(req.user.id, chat.id, group.name);
+        res.send(group);
     } catch (err) {
         console.log(err);
         if (transaction) await transaction.rollback();
@@ -116,7 +119,7 @@ router.post('/', auth, async (req, res) => {
  * }
  * */
 router.post('/:id/join', auth, async (req, res) => {
-    const {error} = validateId(req.params.id);
+    const { error } = validateId(req.params.id);
     if (error) return res.status(400).send("group invalid");
     const group = await Group.findByPk(req.params.id);
     if (!group) return res.status(404).send("group not found");
@@ -126,7 +129,11 @@ router.post('/:id/join', auth, async (req, res) => {
             mygroup_id: req.params.id
         }
     });
-    res.send({newjoined: created});
+    const chat = await group.getChat();
+    if (created) {
+        alertNewChat(req.user.id, chat.id, group.name);
+    }
+    res.send({ newjoined: created });
 });
 
 /**
@@ -139,7 +146,7 @@ router.post('/:id/join', auth, async (req, res) => {
  * }
  * */
 router.get('/:id', async (req, res) => {
-    const {error} = validateId(req.params.id);
+    const { error } = validateId(req.params.id);
     if (error) return res.status(400).send("group invalid");
     const group = await Group.findByPk(req.params.id);
     if (!group) return res.status(404).send("group not found");
@@ -165,13 +172,13 @@ router.get('/:id', async (req, res) => {
  * }
  * */
 router.get('/:id/members', async (req, res) => {
-    const {error} = validateId(req.params.id);
+    const { error } = validateId(req.params.id);
     if (error) return res.status(400).send("group invalid");
     const group = await Group.findByPk(req.params.id);
     if (!group) return res.status(404).send("group not found");
-    const members = await group.getUsers({include:[User]});
+    const members = await group.getUsers({ include: [User] });
     //refactor the following to be async
-    const resArr = members.map( user => {
+    const resArr = members.map(user => {
         const obj = {
             id: user.user.id,
             first_name: user.user.first_name,
@@ -181,7 +188,7 @@ router.get('/:id/members', async (req, res) => {
         };
         return obj;
     });
-    res.send({members: resArr});
+    res.send({ members: resArr });
 });
 
 /**
@@ -203,12 +210,12 @@ router.get('/:id/members', async (req, res) => {
  * }
  * */
 router.get('/:id/events', async (req, res) => {
-    const {error} = validateId(req.params.id);
+    const { error } = validateId(req.params.id);
     if (error) return res.status(400).send("group invalid");
     const group = await Group.findByPk(req.params.id);
     if (!group) return res.status(404).send("group not found");
-    const events = await group.getEvents({attributes:{exclude:['mygroup_id']}});
-    res.send({events});
+    const events = await group.getEvents({ attributes: { exclude: ['mygroup_id'] } });
+    res.send({ events });
 });
 
 /--ADMIN ACESSES BELOW--/
@@ -227,8 +234,8 @@ router.post('/:id/edit', auth, async (req, res) => {
     if (joiObj.error) return res.status(400).send(joiObj.error.details[0].message);
     const isAdmin = await assertAdmin(req.user.id, req.params.id, res);
     if (!isAdmin) return;
-    const group = await admin.getMygroup();
-    group.update({name: req.body.name});
+    const group = await Group.findByPk(req.params.id);
+    group.update({ name: req.body.name });
     res.send("Group name updated");
 });
 
@@ -251,7 +258,7 @@ router.post('/:id/makeadmin/:userid', auth, async (req, res) => {
         }
     });
     if (!target) return res.status(404).send("User not in group");
-    if (!target.manages) target.update({manages:true});
+    if (!target.manages) target.update({ manages: true });
     res.send(`Set user:${target.user_id} to admin for group:${target.mygroup_id}`);
 });
 

@@ -1,12 +1,16 @@
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const db = require('../modules/database');
-const {User, validateUser} = require('../models/User');
-const {Profile, validateProfile} = require('../models/Profile');
+const { User, validateUser } = require('../models/User');
+const { Profile, validateProfile } = require('../models/Profile');
+const { Chat } = require('../models/Chat');
 const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
 const tokenGen = require('../modules/authtoken');
+const { alertNewChat } = require('../modules/socketHandler');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 /**
  * Get user's own information
@@ -24,10 +28,10 @@ const tokenGen = require('../modules/authtoken');
  *          "userId": [number]
  *      }
  * }
- * */ 
+ * */
 router.get('/me', auth, async (req, res) => {
     const user = await User.findByPk(req.user.id, {
-        attributes: {exclude: ['password']},
+        attributes: { exclude: ['password'] },
         include: [Profile]
     });
     res.send(user);
@@ -44,12 +48,12 @@ router.get('/me', auth, async (req, res) => {
  * }
  * */
 router.post('/me', auth, async (req, res) => {
-    const {error} = validateProfile(req.body);
+    const { error } = validateProfile(req.body);
     if (error) {
         return res.status(400).send(error.details[0].message);
     }
-    const profile = await Profile.findOne({ 
-        where: { user_id: req.user.id}
+    const profile = await Profile.findOne({
+        where: { user_id: req.user.id }
     });
     if (req.body.img_path) {
         profile.img_path = req.body.img_path;
@@ -76,16 +80,48 @@ router.post('/me', auth, async (req, res) => {
  *          "userId": [number]
  *      }
  * }
- * */ 
+ * */
 router.get('/:id', async (req, res) => {
     const user = await User.findByPk(req.params.id, {
-        attributes: {exclude: ['password']},
+        attributes: { exclude: ['password'] },
         include: [Profile]
     });
     if (!user) {
         return res.status(404).send("user not found");
     }
     res.send(user);
+});
+
+/**
+ * Initiate Chat request with another user.
+ * POST request.
+ * Provide JWT token.
+ * Will automatically alert chatbox to update if user is online
+ * */
+router.post('/:id/chat', auth, async (req, res) => {
+    const otherUser = await User.findByPk(req.params.id);
+    if (!otherUser) {
+        return res.status(404).send("user not found");
+    }
+    const [chat, isCreated] = await Chat.findOrCreate({
+        where: {
+            [Op.or]: [
+                { user1_id: req.user.id, user2_id: req.params.id },
+                { user2_id: req.user.id, user1_id: req.params.id }
+            ]
+        },
+        defaults: {
+            user1_id: req.user.id,
+            user2_id: req.params.id
+        }
+    });
+    if (isCreated) {
+        alertNewChat(req.user.id, chat.id, otherUser.first_name);
+        alertNewChat(otherUser.id, chat.id, req.user.first_name);
+        res.send(`Chat established with ${otherUser.first_name}`);
+    } else {
+        res.send('Chat already exists');
+    }
 });
 
 /**
@@ -108,22 +144,22 @@ router.get('/:id', async (req, res) => {
  * }
  */
 router.post('/', async (req, res) => {
-    const {error} = validateUser(req.body);
+    const { error } = validateUser(req.body);
     if (error) {
         return res.status(400).send(error.details[0].message);
     }
-    let user = await User.findOne({where: {email: req.body.email}});
+    let user = await User.findOne({ where: { email: req.body.email } });
     if (user) {
         return res.status(400).send('User already registered');
     }
-    user = User.build(_.pick(req.body, ['first_name','last_name', 'email', 'password']));
+    user = User.build(_.pick(req.body, ['first_name', 'last_name', 'email', 'password']));
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
     let transaction;
     try {
         transaction = await db.transaction();
-        user = await user.save({transaction});
-        await user.createProfile({bio:"test2"}, {transaction});
+        user = await user.save({ transaction });
+        await user.createProfile({ bio: "test2" }, { transaction });
         await transaction.commit();
     } catch (err) {
         console.log(err.message);

@@ -12,7 +12,10 @@ const Op = Sequelize.Op;
 const MESSAGE_SEND = "MESSAGE_SEND";
 const MESSAGE_RECIEVE = "MESSAGE_RECIEVE";
 const MESSAGE_ERROR = "MESSAGE_ERROR";
+const ADD_CHAT = "ADD_CHAT";
 const USER_CONNECT = "USER_CONNECT";
+
+const connectedUsers = {};
 
 module.exports = function (socket) {
 
@@ -29,6 +32,7 @@ module.exports = function (socket) {
         userInfo = authenticateUser(token);
         if (!userInfo) return;
         console.log(`Verified User | Socket: [${socket.id}] ID: [${userInfo.id}] Name: [${userInfo.first_name} ${userInfo.last_name}]`);
+        connectedUsers[userInfo.id] = socket.id;
         getChats(userInfo).then(array => {
             console.log("Sending chatlogs to user");
             callback(array);
@@ -40,22 +44,22 @@ module.exports = function (socket) {
      * Reformat the message so only those listening on those chats can catch.
      * Emit the message to all users.
      */
-    socket.on(MESSAGE_SEND, (chatid, userid, name, message) => {
+    socket.on(MESSAGE_SEND, (chatid, message) => {
         console.log("MESSAGE_SEND entered");
         if (!userInfo) {
             socket.emit(MESSAGE_ERROR, "User not verified");
             return;
         }
-        Promise.all([User.findByPk(userid), Chat.findByPk(chatid)]).then(([user, chat]) => {
+        Promise.all([User.findByPk(userInfo.id), Chat.findByPk(chatid)]).then(([user, chat]) => {
             console.log("message value: ", message);
-            const log = Chatlog.build({ message: message });
+            const log = Chatlog.build({ message });
             log.setUser(user, { save: false });
             log.setChat(chat, { save: false });
             log.save();
         });
         socket.broadcast.emit(`${MESSAGE_RECIEVE}-${chatid}`, {
             message,
-            name,
+            name: userInfo.first_name,
             created_at: "now"
         });
         socket.emit(`${MESSAGE_RECIEVE}-${chatid}`, {
@@ -69,7 +73,11 @@ module.exports = function (socket) {
      * User disconnects: Log onto console.
      */
     socket.on('disconnect', () => {
-        const usrstr = userInfo ? `ID: [${userInfo.id}] Name: [${userInfo.first_name} ${userInfo.last_name}]` : "";
+        let usrstr = '';
+        if (userInfo) {
+            delete connectedUsers[userInfo.id];
+            usrstr = `ID: [${userInfo.id}] Name: [${userInfo.first_name} ${userInfo.last_name}]`;
+        }
         console.log(`Disconnect | Socket: [${socket.id}] ${usrstr}`);
     })
 };
@@ -129,6 +137,8 @@ const generateChatlog = async (chat, id) => {
     };
 };
 
+
+
 /**
  * Authenticates User in websocket connection. Uses JWT token.
  */
@@ -141,3 +151,20 @@ function authenticateUser(token) {
         return;
     }
 }
+
+
+/**
+ * Alerts online users if a new chat is added.
+ */
+function alertNewChat(userid, chatid, chatname) {
+    console.log(userid, chatid, chatname);
+    if (connectedUsers[userid]) {
+        io.to(connectedUsers[userid]).emit(ADD_CHAT, {
+            id: chatid,
+            name: chatname,
+            messages: []
+        });
+    }
+}
+
+module.exports.alertNewChat = alertNewChat;
