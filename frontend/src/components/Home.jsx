@@ -3,6 +3,7 @@ import { Carousel } from "react-bootstrap";
 import axios from 'axios';
 import Login from "./Login";
 import SignUp from "./SignUp";
+import ToolBar from "./ToolBar";
 export default class Home extends Component {
     
 
@@ -29,7 +30,8 @@ export default class Home extends Component {
         return (
             <div>  
                 <div>
-                    <h2>DoggoWorld<hr/></h2>
+                <ToolBar></ToolBar>
+                    
                     <div class="row">
                         <div class="column">
                             <Login></Login>

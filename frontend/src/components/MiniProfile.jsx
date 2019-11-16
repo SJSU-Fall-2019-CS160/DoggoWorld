@@ -21,11 +21,11 @@ export default class MiniProfile extends Component {
         return (
             <div>
         
-               <h1> <img src = {'https://picsum.photos/200'} alt = ""/></h1>
+               <h1> <img src = {"/components/images/corgi2.jpg"} alt = ""/></h1>
                 <h2><span >{this.state.name}</span></h2>
-                <Button variant="primary" type="button" onClick={<Redirect to= '/Chat'></Redirect>}>
+                <button variant="primary" type="button" onClick={e => this.handleEdit()}>
                     Edit
-                </Button>
+                </button>
                 <h3>{this.state.bio}</h3>
                
               

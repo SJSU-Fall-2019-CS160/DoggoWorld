@@ -2,6 +2,7 @@ import React,{Component} from "react";
 import { Button, Form } from "react-bootstrap";
 import Myfunctions from "../userfunctions";
 import { Redirect } from  'react-router-dom'
+
 export default class Login extends Component {
     constructor(props) {
         super(props);
@@ -48,10 +49,13 @@ export default class Login extends Component {
         console.log("Login")
         return (
             <div>
+            
             {this.renderRedirect()}
                        
                 
                     <h1>
+                    
+                    
                     Login
                 </h1>
                 <Form.Group controlId="formBasicEmail">
@@ -67,10 +71,7 @@ export default class Login extends Component {
                     <Form.Label >Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" value={this.state.password} onChange={e => this.handlePasswordChange(e) }/>
                 </Form.Group>
-
-                <Button variant="primary" type="button" onClick={e => this.handleLogin()}>
-                    Login
-                </Button>
+                <button className="btn btn-primary" type='button' onClick={e => this.handleLogin()}>Login</button>
                 
             </div>
             );      
