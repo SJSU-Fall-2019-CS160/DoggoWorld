@@ -262,7 +262,7 @@ const HomepageLayout = () => (
             <p style={{ fontSize: "1.33em" }}>blah</p>
           </Grid.Column>
           <Grid.Column floated="right" width={6}>
-            <Image bordered rounded size="large" src="/images/main.jpg" />
+            <Image bordered rounded size="large" src="/images/main2.jpg" />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
