@@ -53,6 +53,8 @@ const HomepageHeading = ({ mobile }) => (
     >
       <Header
         as="h1"
+        color="olive"
+        size="large"
         content="Doggo World"
         inverted
         style={{
@@ -72,7 +74,7 @@ const HomepageHeading = ({ mobile }) => (
           marginTop: mobile ? "0.5em" : "1.5em"
         }}
       />
-      <Button primary size="huge">
+      <Button primary size="huge" color="orange" href="/login">
         Get Started
         <Icon name="right arrow" />
       </Button>
@@ -287,7 +289,7 @@ const HomepageLayout = () => (
             </Header>
             <p style={{ fontSize: "1.33em" }}>
               <Image avatar src="/images/main.jpg" />
-              <b>Nan</b> DoggoWorld
+              <b>DoggoWorld</b>
             </p>
           </Grid.Column>
         </Grid.Row>
@@ -342,9 +344,36 @@ const HomepageLayout = () => (
               </List>
             </Grid.Column>
             <Grid.Column width={7}>
-              <Header as="h4" inverted>
-                Footer Header
-              </Header>
+              <footer id="footer">
+                <ul class="icons">
+                  <li>
+                    <a href="#" class="icon brands fa-twitter">
+                      <span class="label">Twitter</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="icon brands fa-facebook-f">
+                      <span class="label">Facebook</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="icon brands fa-instagram">
+                      <span class="label">Instagram</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#www.github.com" class="icon brands fa-github">
+                      <span class="label">Github</span>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="copyright">
+                  <li>&copy; Untitled. All rights reserved.</li>
+                  <li>
+                    Design: <a href="#">DoggoWorld</a>
+                  </li>
+                </ul>
+              </footer>
               <p></p>
             </Grid.Column>
           </Grid.Row>
