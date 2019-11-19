@@ -3,11 +3,13 @@ const groups = require('../routes/groups');
 const users = require('../routes/users');
 const events = require('../routes/events');
 const login = require('../routes/login');
+const register = require('../routes/register');
 const error = require('../middleware/error');
 
-module.exports = function(app) {
+module.exports = function (app) {
     app.use(bodyParser.json());
-    app.use('/api/login', login)    
+    app.use('/api/login', login);
+    app.use('/api/register', register);
     app.use('/api/users', users);
     app.use('/api/groups', groups);
     app.use('/api/events', events);
