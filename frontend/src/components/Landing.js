@@ -6,8 +6,11 @@ class Landing extends Component {
     return (
       <Grid centered>
         <Grid.Row>
-          <Grid.Column>
+          <Grid.Column width="10">
             <img src={`${window.location.origin}/images/main.jpg`}></img>
+          </Grid.Column>
+          <Grid.Column>
+            <Image src="/images/main2.jpg"></Image>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row></Grid.Row>

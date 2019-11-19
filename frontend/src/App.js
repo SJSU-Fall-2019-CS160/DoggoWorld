@@ -7,6 +7,7 @@ import NotFoundPage from "./components/NotFound";
 import HomepageLayout from "./components/HomepageLayout";
 import Post from "./components/Post";
 import Card from "./components/Card";
+import Landing from "./components/Landing";
 function App() {
   return (
     <Router>
@@ -18,6 +19,7 @@ function App() {
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/post" component={Post} />
           <Route exact path="/card" component={Card} />
+          <Route exact path="/landing" component={Landing} />
           <Route exact path="*" component={NotFoundPage}>
             {" "}
             />
