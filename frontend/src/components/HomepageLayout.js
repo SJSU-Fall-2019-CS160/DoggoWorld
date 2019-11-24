@@ -133,7 +133,7 @@ class DesktopContainer extends Component {
                   </Button>
                   <Button
                     as="a"
-                    href="/register"
+                    href="/users"
                     inverted={!fixed}
                     primary={fixed}
                     style={{ marginLeft: "0.5em" }}
@@ -191,7 +191,7 @@ class MobileContainer extends Component {
           <Menu.Item as="a" href="/login">
             Log in
           </Menu.Item>
-          <Menu.Item as="a" href="/register">
+          <Menu.Item as="a" href="/users">
             Sign Up
           </Menu.Item>
         </Sidebar>

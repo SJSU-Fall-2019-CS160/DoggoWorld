@@ -5,7 +5,7 @@ class Profile extends Component {
   constructor() {
     super();
     this.state = {
-      username: "",
+      email: "",
       password: ""
     };
   }
@@ -14,7 +14,7 @@ class Profile extends Component {
     getProfile()
       .then(data =>
         this.setState({
-          username: data.username,
+          email: data.email,
           password: data.hashed_password
         })
       )
@@ -34,7 +34,7 @@ class Profile extends Component {
             <tbody>
               <tr>
                 <td>Username</td>
-                <td>{this.state.username}</td>
+                <td>{this.state.email}</td>
               </tr>
               <tr>
                 <td>Hashed password (demo purpose)</td>

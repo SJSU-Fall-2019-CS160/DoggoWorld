@@ -7,7 +7,6 @@ class Register extends Component {
     this.state = {
       firstname: "",
       lastname: "",
-      username: "",
       email: "",
       password: "",
       errors: {}
@@ -26,7 +25,6 @@ class Register extends Component {
     const newUser = {
       firstname: this.state.firstname,
       lastname: this.state.lastname,
-      username: this.state.username,
       email: this.state.email,
       password: this.state.password
     };
@@ -62,17 +60,6 @@ class Register extends Component {
                   name="lastname"
                   placeholder="Enter Last Name"
                   value={this.state.lastname}
-                  onChange={this.onChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="username">User name</label>
-                <input
-                  type="username"
-                  className="form-control"
-                  name="username"
-                  placeholder="Enter username"
-                  value={this.state.username}
                   onChange={this.onChange}
                 />
               </div>
