@@ -31,17 +31,15 @@ router.get('/:id', async (req, res) => {
  * Get a event's participants
  * GET request.
  * Response.
- * {
- *    "participants": [
- *        {
- *            "id": [number],
- *            "first_name": [string],
- *            "last_name": [string]
- *        },
- *        {...},
- *        {...}
- *    ]
- * }
+ * [
+*     {
+*         "id": [number],
+*         "first_name": [string],
+*         "last_name": [string]
+*     },
+*     {...},
+*     {...}
+ * ]
  * */
 router.get('/:id/participants', async (req, res) => {
     const {error} = validateId(req.params.id);
@@ -57,7 +55,7 @@ router.get('/:id/participants', async (req, res) => {
         }
         return obj;
     })
-    res.send({participants: resArr});
+    res.send( resArr);
 });
 
 /**

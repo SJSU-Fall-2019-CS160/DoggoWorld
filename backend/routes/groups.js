@@ -274,6 +274,11 @@ router.post('/:id/makeadmin/:userid', auth, async (req, res) => {
  *      "date": "YYYY-MM-DD",
  *      "time": "HH:MM:SS"
  * }
+ * Response
+ * {
+ *   "id": [number],
+ *   "name": [string]
+ * }
  * */
 router.post('/:id/event', auth, async (req, res) => {
     let joiObj = validateId(req.params.id);
@@ -284,8 +289,8 @@ router.post('/:id/event', auth, async (req, res) => {
     if (!isAdmin) return;
     const group = await Group.findByPk(req.params.id);
     if (!group) return res.status(404).send("Group not found");
-    await group.createEvent(req.body);
-    res.send('success');
+    const event = await group.createEvent(req.body);
+    res.send({id:event.id, name: event.name});
 });
 
 /--TODO: event editing--, maybe in new router/
