@@ -23,13 +23,14 @@ class Register extends Component {
     e.preventDefault();
 
     const newUser = {
-      username: this.state.username,
+      first_name: this.state.first_name,
+      last_name: this.state.last_name,
       email: this.state.email,
       password: this.state.password
     };
 
     register(newUser).then(res => {
-      this.props.history.push(`/login`);
+      this.props.history.push(`/register_login`);
     });
   }
 
