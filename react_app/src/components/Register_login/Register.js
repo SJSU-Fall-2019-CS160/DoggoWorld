@@ -30,6 +30,7 @@ class Register extends Component {
     };
 
     register(newUser).then(res => {
+      console.log("finish");
       this.props.history.push(`/register_login`);
     });
   }
