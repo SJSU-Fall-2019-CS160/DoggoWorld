@@ -6,7 +6,7 @@ const cookie = new Cookies();
 export const register = newUser => {
   return axios
     .post("/api/register", {
-      fist_name: newUser.first_name,
+      first_name: newUser.first_name,
       last_name: newUser.last_name,
       email: newUser.email,
       password: newUser.password
@@ -27,7 +27,8 @@ export const login = user => {
     })
     .then(response => {
       if (response.status === 200) {
-        return response.data;
+        console.log(response);
+        return response;
       }
     });
 };
@@ -40,7 +41,7 @@ export const addProduct = async (url, price) => {
       price: price
     },
     {
-      headers: { "X-CSRF-TOKEN": `${cookie.get("csrf_access_token")}` },
+      headers: { "X-AUTH-TOKEN": `${cookie.get("csrf_access_token")}` },
       withCredentials: true
     }
   );
@@ -48,7 +49,7 @@ export const addProduct = async (url, price) => {
 
 export const getProfile = async () => {
   const response = await axios.get("/api/user", {
-    headers: { "x-auth-token": `${cookie.get("csrf_access_token")}` },
+    headers: { "X-AUTH-TOKEN": `${cookie.get("csrf_access_token")}` },
     withCredentials: true
   });
   return response.data;

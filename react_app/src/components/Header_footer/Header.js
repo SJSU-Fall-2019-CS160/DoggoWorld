@@ -6,7 +6,7 @@ const Header = () => {
     <header className="bck_b_light">
       <div className="container">
         <div className="left">
-          <div className="logo">Doggo World</div>
+          <div className="logo">DoggoWorld</div>
         </div>
         <div className="right">
           <Link to="/">

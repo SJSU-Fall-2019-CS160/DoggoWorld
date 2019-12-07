@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { login } from "../Userfunctions";
+import { withRouter } from "react-router-dom";
 
 class Login extends Component {
   constructor() {
@@ -20,15 +21,17 @@ class Login extends Component {
     e.preventDefault();
 
     const user = {
-      userid: this.state.email,
+      email: this.state.email,
       password: this.state.password
     };
 
     login(user)
       .then(res => {
+        console.log(res);
         this.props.history.push(`/dashboard`);
       })
       .catch(err => {
+        console.log("Enter");
         console.error(err.response);
       });
   }
@@ -38,7 +41,7 @@ class Login extends Component {
       <div className="signin_wrapper">
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
-            <label htmlFor="userid">Email</label>
+            <label htmlFor="email">Email</label>
             <input
               type="email"
               className="form-control"
@@ -68,4 +71,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);
