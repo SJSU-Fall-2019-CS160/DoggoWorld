@@ -31,9 +31,14 @@ const postSignUp = async function(cred){
             
             const res = await axios.post('/api/users', cred);
             console.log("signup")
-        }
-
+}
+const postCreateGroup = async function(grp) {
+    const res = await axios.post('api/groups', grp)
+    console.log("create group")
+   
+}
 
 Myfunctions.postLogin = postLogin;
 Myfunctions.postSignUp = postSignUp;
+Myfunctions.postCreateGroup = postCreateGroup;
 export default Myfunctions;

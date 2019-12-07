@@ -11,7 +11,10 @@ import MiniProfile from './components/MiniProfile'
 import Home from './components/Home'
 import Chat from './components/Chat'
 import Login from './components/Login'
+import SignUp from './components/SignUp'
 import Main from './components/Main'
+import HomepageLanding from './components/HomepageLanding'
+import Group from './components/Group'
 import axios from 'axios';
 
 // This site has 3 pages, all of which are rendered
@@ -24,15 +27,9 @@ import axios from 'axios';
 // work properly.
 
 export default function App(){
-    
-   
       return(
         <Router>
       <div>
-        
-       
-        
-
        {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL.  */}
         <Switch>
@@ -48,9 +45,14 @@ export default function App(){
           <Route path="/MiniProfile">
             <MiniProfile />
           </Route>
+          <Route path="/Group">
+            <Group />
+          </Route>
           <Route path="/Login">
             <Login />
           </Route>
+          <Route exact path="/homepage" component={HomepageLanding} />
+          <Route exact path="/users" component={SignUp} />
           <Route path="/">
             <Home />
           </Route>
