@@ -25,15 +25,20 @@ module.exports = function (socket) {
 
     /**
      * User connects: Get jwt token to verify identity.
-     * Return an array of chat objects with data included.
      */
     socket.on(USER_CONNECT, (token, callback) => {
         console.log("Entered user connect");
-        userInfo = authenticateUser(token);
+        if (!userInfo) userInfo = authenticateUser(token);
         if (!userInfo) return;
-        console.log(`Verified User | Socket: [${socket.id}] ID: [${userInfo.id}] Name: [${userInfo.first_name} ${userInfo.last_name}]`);
+        console.log(
+            `Verified User | Socket: [${socket.id}] ID: [${userInfo.id}] Name: [${userInfo.first_name} ${userInfo.last_name}]`
+        );
         connectedUsers[userInfo.id] = socket.id;
-        getChats(userInfo).then(array => {
+    });
+
+    socket.on(GET_CHATLOGS, callback => {
+        if (!userInfo) return;
+        getGroupChats(userInfo).then(array => {
             console.log("Sending chatlogs to user");
             callback(array);
         });
@@ -57,15 +62,16 @@ module.exports = function (socket) {
             log.setChat(chat, { save: false });
             log.save();
         });
+        const time = new Date().toISOString();
         socket.broadcast.emit(`${MESSAGE_RECIEVE}-${chatid}`, {
             message,
             name: userInfo.first_name,
-            created_at: "now"
+            created_at: time
         });
         socket.emit(`${MESSAGE_RECIEVE}-${chatid}`, {
             message,
             name: "Me",
-            created_at: "now"
+            created_at: time
         });
     });
 
@@ -79,13 +85,13 @@ module.exports = function (socket) {
             usrstr = `ID: [${userInfo.id}] Name: [${userInfo.first_name} ${userInfo.last_name}]`;
         }
         console.log(`Disconnect | Socket: [${socket.id}] ${usrstr}`);
-    })
+    });
 };
 
 /**
  * Gets an array of chat data objects.
  */
-async function getChats(userInfo) {
+async function getGroupChats(userInfo) {
     console.log("Generating Chatlogs");
     const groups = await GroupPrivilege.findAll({
         where: { user_id: userInfo.id },
@@ -93,12 +99,7 @@ async function getChats(userInfo) {
     });
     const groupIds = groups.map(grouppriv => grouppriv.mygroup_id);
     let chats = await Chat.findAll({
-        where: {
-            [Op.or]: [
-                { mygroup_id: groupIds },
-                { [Op.or]: [{ user1_id: userInfo.id }, { user2_id: userInfo.id }] }
-            ]
-        },
+        where: { mygroup_id: { [Op.in]: groupIds } },
         logging: false
     });
     console.log("Creating Chat Objects");
