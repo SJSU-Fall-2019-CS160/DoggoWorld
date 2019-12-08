@@ -6,6 +6,8 @@ import RegisterLogin from "./components/Register_login/index";
 import Register from "./components/Register_login/Register";
 import UserDashboard from "./components/Dashboard/UserDashboard";
 import Event from "./components/Dashboard/Event/Event";
+import Profile from "./components/Profile/Profile";
+import CalendarWidget from "./components/Calender/CalenderWidget";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <Route exact path="/register_login" component={RegisterLogin} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/dashboard" component={UserDashboard} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/calendar" component={CalendarWidget} />
         </Switch>
       </Landing>
     </Router>

@@ -48,7 +48,7 @@ export const addProduct = async (url, price) => {
 };
 
 export const getProfile = async () => {
-  const response = await axios.get("/api/user", {
+  const response = await axios.get("/api/profile", {
     headers: { "X-AUTH-TOKEN": `${cookie.get("csrf_access_token")}` },
     withCredentials: true
   });
