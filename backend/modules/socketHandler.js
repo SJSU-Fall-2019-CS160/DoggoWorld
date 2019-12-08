@@ -10,6 +10,7 @@ const { User } = require("../models/User");
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const MESSAGE_SEND = "MESSAGE_SEND";
+const GET_CHATLOGS = "GET_CHATLOGS";
 const MESSAGE_RECIEVE = "MESSAGE_RECIEVE";
 const MESSAGE_ERROR = "MESSAGE_ERROR";
 const ADD_CHAT = "ADD_CHAT";
@@ -34,6 +35,7 @@ module.exports = function (socket) {
             `Verified User | Socket: [${socket.id}] ID: [${userInfo.id}] Name: [${userInfo.first_name} ${userInfo.last_name}]`
         );
         connectedUsers[userInfo.id] = socket.id;
+        callback();
     });
 
     socket.on(GET_CHATLOGS, callback => {
