@@ -7,6 +7,7 @@ import Register from "./components/Register_login/Register";
 import UserDashboard from "./components/Dashboard/UserDashboard";
 import Profile from "./components/Profile/Profile";
 import CalendarWidget from "./components/Calender/CalenderWidget";
+import Chat from "./components/Chatroom/Chat";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route exact path="/dashboard" component={UserDashboard} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/calendar" component={CalendarWidget} />
+          <Route exact path="/chattest" component={Chat} />
         </Switch>
       </Landing>
     </Router>
