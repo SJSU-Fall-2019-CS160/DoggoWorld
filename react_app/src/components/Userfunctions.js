@@ -58,28 +58,9 @@ export const getProfile = async () => {
 export const deleteEmail = async email => {
   console.log(cookie.get("csrf_access_token"));
   const response = await axios.delete("/api/user/email", {
-    headers: { "X-CSRF-TOKEN": `${cookie.get("csrf_access_token")}` },
+    headers: { "X-AUTH-TOKEN": `${cookie.get("csrf_access_token")}` },
     data: {
       email: email
-    }
-  });
-  return response;
-};
-
-export const getProduct = async () => {
-  const response = await axios.get("/api/product", {
-    headers: { "X-CSRF-TOKEN": `${cookie.get("csrf_access_token")}` },
-    withCredentials: true
-  });
-  return await response.data;
-};
-
-export const deleteProduct = async (retailer, product_id) => {
-  const response = await axios.delete("/api/product", {
-    headers: { "X-CSRF-TOKEN": `${cookie.get("csrf_access_token")}` },
-    data: {
-      retailer: retailer,
-      product_id: product_id
     }
   });
   return response;
@@ -104,11 +85,6 @@ export const postComment = async (comment, retailer, id) => {
     }
   );
   return response;
-};
-
-export const getAnnounce = async () => {
-  const response = await axios.get(`/api/announcement`);
-  return await response.data;
 };
 
 export const logout = async () => {

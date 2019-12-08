@@ -5,7 +5,6 @@ import Landing from "./components/Landing";
 import RegisterLogin from "./components/Register_login/index";
 import Register from "./components/Register_login/Register";
 import UserDashboard from "./components/Dashboard/UserDashboard";
-import Event from "./components/Dashboard/Event/Event";
 import Profile from "./components/Profile/Profile";
 import CalendarWidget from "./components/Calender/CalenderWidget";
 
