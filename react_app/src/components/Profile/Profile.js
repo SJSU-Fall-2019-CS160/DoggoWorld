@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { getProfile, deleteEmail } from "./UserFunctions";
+import { getProfile, deleteEmail } from "../Userfunctions";
 /**
  * Get user's own information
  * GET request.
@@ -62,31 +62,31 @@ class Profile extends Component {
   }
 
   render() {
-    const rows = [];
-    for (let i = 0; i < this.state.all_email.length; i++) {
-      const p = this.state.all_email[i];
-      if (p.email === this.state.primary_email) {
-        continue;
-      }
-      const jsx = (
-        <tr className="text-center">
-          <td>{p.email}</td>
-          <td>
-            <form onSubmit={this.onSubmit}>
-              <button
-                className="link_default"
-                onClick={e => {
-                  this.onClick(e, p.email);
-                }}
-              >
-                del
-              </button>
-            </form>
-          </td>
-        </tr>
-      );
-      rows.push(jsx);
-    }
+    // const rows = [];
+    // for (let i = 0; i < this.state.all_email.length; i++) {
+    //   const p = this.state.all_email[i];
+    //   if (p.email === this.state.primary_email) {
+    //     continue;
+    //   }
+    //   const jsx = (
+    //     <tr className="text-center">
+    //       <td>{p.email}</td>
+    //       <td>
+    //         <form onSubmit={this.onSubmit}>
+    //           <button
+    //             className="link_default"
+    //             onClick={e => {
+    //               this.onClick(e, p.email);
+    //             }}
+    //           >
+    //             del
+    //           </button>
+    //         </form>
+    //       </td>
+    //     </tr>
+    //   );
+    //   rows.push(jsx);
+    // }
     return (
       <div className="container">
         <div className="col-sm-5 mx-auto">
@@ -102,15 +102,15 @@ class Profile extends Component {
             </tr>
             <tr>
               <td className="text-center">
-                <strong>Email</strong>
+                <strong>Last Name</strong>
               </td>
-              <td>{this.state.email}</td>
+              <td>{this.state.last_name}</td>
             </tr>
             <tr>
               <td className="text-center">
-                <strong>Secondary Email</strong>
+                <strong>Email</strong>
               </td>
-              <td>{rows}</td>
+              <td>{this.state.email}</td>
             </tr>
           </tbody>
         </table>

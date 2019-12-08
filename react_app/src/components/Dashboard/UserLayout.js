@@ -37,7 +37,7 @@ const UserLayout = props => {
               <a href="/chatroom">Chatroom</a>
             </div>
             <div className="links">
-              <a href="https://www.walmart.com">Calender</a>
+              <a href="/calendar">Calender</a>
             </div>
           </div>
         </div>

@@ -49,7 +49,7 @@ class UserDashboard extends Component {
           </div>
         </div>
         <div className="user_nfo_panel">
-          <h1>Event</h1>
+          <h1>My Group</h1>
           <div className="user_product_block_wrapper"></div>
         </div>
       </UserLayout>
