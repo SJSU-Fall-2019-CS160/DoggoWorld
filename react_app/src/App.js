@@ -8,6 +8,7 @@ import UserDashboard from "./components/Dashboard/UserDashboard";
 import Profile from "./components/Profile/Profile";
 import CalendarWidget from "./components/Calender/CalenderWidget";
 import Chat from "./components/Chatroom/Chat";
+import AllGroups from "./components/Groups/AllGroups";
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
           <Route exact path="/dashboard" component={UserDashboard} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/calendar" component={CalendarWidget} />
-          <Route exact path="/chattest" component={Chat} />
+          <Route exact path="/chatroom" component={Chat} />
+          <Route exact path="/search" component={AllGroups} />
         </Switch>
       </Landing>
     </Router>

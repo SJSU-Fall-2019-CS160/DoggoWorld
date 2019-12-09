@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import UserLayout from "./UserLayout";
 import { getProfile } from "../Userfunctions";
+import Groups from "../Groups/Groups";
 
 class UserDashboard extends Component {
   constructor() {
     super();
     this.state = {
-      username: "",
-      all_email: "",
-      primary_email: ""
+      first_name: "",
+      last_name: "",
+      email: ""
     };
   }
 
@@ -16,9 +17,9 @@ class UserDashboard extends Component {
     getProfile()
       .then(data =>
         this.setState({
-          username: data.username,
-          primary_email: data.primary_email,
-          all_email: data.all_email
+          first_name: data.first_name,
+          last_name: data.last_name,
+          email: data.email
         })
       )
       .catch(err => {
@@ -27,30 +28,23 @@ class UserDashboard extends Component {
   }
 
   render() {
-    const rows = [];
-    for (let i = 0; i < this.state.all_email.length; i++) {
-      const p = this.state.all_email[i];
-      if (p.email === this.state.primary_email) {
-        continue;
-      }
-      const jsx = <div>{p.email}</div>;
-      rows.push(jsx);
-    }
     return (
       <UserLayout>
         <div className="user_nfo_panel">
           <h1>User information</h1>
           <div>
             <span>User Name: </span>
-            <h1>{this.state.username}</h1>
+            <h1>{this.state.first_name}</h1>
 
             <span>Primary Email: </span>
-            <h1>{this.state.primary_email}</h1>
+            <h1>{this.state.email}</h1>
           </div>
         </div>
         <div className="user_nfo_panel">
           <h1>My Group</h1>
-          <div className="user_product_block_wrapper"></div>
+          <div className="user_product_block_wrapper">
+            <Groups />
+          </div>
         </div>
       </UserLayout>
     );

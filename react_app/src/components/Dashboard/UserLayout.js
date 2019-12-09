@@ -34,6 +34,9 @@ const UserLayout = props => {
           <div>
             <h2>Utils</h2>
             <div className="links">
+              <a href="/search">My Group</a>
+            </div>
+            <div className="links">
               <a href="/chatroom">Chatroom</a>
             </div>
             <div className="links">

@@ -28,6 +28,7 @@ export const login = user => {
     .then(response => {
       if (response.status === 200) {
         console.log(response);
+        setData(response.headers["x-auth-token"]);
         return response;
       }
     });
@@ -48,11 +49,67 @@ export const addProduct = async (url, price) => {
 };
 
 export const getProfile = async () => {
-  const response = await axios.get("/api/profile", {
-    headers: { "X-AUTH-TOKEN": `${cookie.get("csrf_access_token")}` },
+  const response = await axios.get("/api/users/profile", {
+    headers: { "x-auth-token": sessionStorage.getItem("authToken") },
     withCredentials: true
   });
   return response.data;
+};
+
+export const getMyGroups = async () => {
+  const response = await axios.get("/api/groups/my", {
+    headers: { "x-auth-token": sessionStorage.getItem("authToken") },
+    withCredentials: true
+  });
+  return response.data;
+};
+
+export const getAllGroups = async () => {
+  const response = await axios.get("/api/groups/search", {
+    headers: { "x-auth-token": sessionStorage.getItem("authToken") },
+    withCredentials: true
+  });
+  return response.data;
+};
+
+export const createGroup = group => {
+  return axios
+    .post(
+      "/api/groups",
+      {
+        name: group.name
+      },
+      {
+        headers: { "x-auth-token": sessionStorage.getItem("authToken") },
+        withCredentials: true
+      }
+    )
+    .then(response => {
+      console.log(response.data);
+      return response;
+    })
+    .catch(err => {
+      console.log(err.response);
+    });
+};
+
+export const joinGroup = id => {
+  return axios
+    .post(
+      `/api/groups/${id}/join`,
+      {},
+      {
+        headers: { "x-auth-token": sessionStorage.getItem("authToken") },
+        withCredentials: true
+      }
+    )
+    .then(response => {
+      console.log(response.data);
+      return response;
+    })
+    .catch(err => {
+      console.log(err.response);
+    });
 };
 
 export const deleteEmail = async email => {
@@ -92,4 +149,8 @@ export const logout = async () => {
     withCredentials: true
   });
   return await response.data;
+};
+
+const setData = token => {
+  sessionStorage.setItem("authToken", token);
 };

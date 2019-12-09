@@ -22,7 +22,7 @@ class Profile extends Component {
   constructor() {
     super();
     this.state = {
-      fist_name: "",
+      first_name: "",
       last_name: "",
       email: "",
       delete: ""
@@ -44,15 +44,14 @@ class Profile extends Component {
 
   componentDidMount() {
     getProfile()
-      .then(data =>
-        this.setState(
-          {
-            first_name: data.first_name,
-            last_name: data.last_name,
-            email: data.primary_email
-          }
-        )
-      )
+      .then(data => {
+        this.setState({
+          first_name: data.first_name,
+          last_name: data.last_name,
+          email: data.email
+        });
+        console.log(data);
+      })
       .catch(err => {
         console.log(err.response.data);
       });
@@ -95,7 +94,7 @@ class Profile extends Component {
               <td className="text-center">
                 <strong>First Name</strong>
               </td>
-              <td>{this.state.fist_name}</td>
+              <td>{this.state.first_name}</td>
             </tr>
             <tr>
               <td className="text-center">

@@ -264,7 +264,7 @@ header .container {
 }
 
 header .container .left {
-  width: 200px;
+  width: 200;
 }
 
 header .container .right {
@@ -910,7 +910,6 @@ footer .business_nfo .nfo {
   width: 200px;
 }
 
-
 .md-add-event-demo {
   position: absolute;
   height: 100%;
@@ -932,7 +931,7 @@ footer .business_nfo .nfo {
   right: 10px;
   top: 8px;
   z-index: 1;
-  transition: background-color .3s ease-out;
+  transition: background-color 0.3s ease-out;
 }
 
 .mbsc-material .md-add-event-demo .md-delete-btn {
@@ -943,7 +942,8 @@ footer .business_nfo .nfo {
   top: 10px;
 }
 
-.md-add-event-demo .md-delete-btn.mbsc-btn-outline.mbsc-btn:not(:disabled):not(.mbsc-active):hover:hover {
+.md-add-event-demo
+  .md-delete-btn.mbsc-btn-outline.mbsc-btn:not(:disabled):not(.mbsc-active):hover:hover {
   background: #f5504e;
   color: #fff;
 }
@@ -955,4 +955,8 @@ footer .business_nfo .nfo {
 
 .md-add-event-popup {
   max-width: 400px;
+}
+
+.buffer {
+  margin-top: 50px;
 }
